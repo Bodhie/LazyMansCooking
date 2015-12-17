@@ -21,6 +21,6 @@ public class Splash extends Activity {
                 startActivity(new Intent(Splash.this, MainActivity.class));
                 finish();
             }
-        }, secondsDelayed * 4000);
+        }, secondsDelayed * 2000);
     }
 }
