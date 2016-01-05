@@ -19,6 +19,7 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,23 +39,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        //Parse
-        Parse.initialize(this, "PuPGePBSCLlAsCqISYYavaMilT8kjxeTSKVkdL6H", "7UFaGvJYlQrRdQA9LQN0g8kPWt8WcCaAPuw3HrAy");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-        query.getInBackground("LYTjTzLE8r", new GetCallback<ParseObject>() {
-            public void done(ParseObject object, ParseException e) {
-                if (e == null) {
-                    String username = (String) object.get("username");
-                    String password = (String) object.get("password");
-                    System.out.println("Username = " + username + " and password = " + password);
-                } else {
-                    System.out.println("Er is iets fout gegaan");
-                }
-            }
-        });
     }
 
     @Override
@@ -84,6 +68,9 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.action_logout) {
+            ParseUser.logOut();
         }
 
         return super.onOptionsItemSelected(item);
