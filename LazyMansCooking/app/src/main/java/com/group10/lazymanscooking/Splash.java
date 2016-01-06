@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.widget.ImageView;
 
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 public class Splash extends Activity {
@@ -17,7 +18,7 @@ public class Splash extends Activity {
 
         //parse
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_id));
-
+        ParseFacebookUtils.initialize(this);
         ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
         splashImage.setImageResource(R.drawable.lazymanscooking);
 
