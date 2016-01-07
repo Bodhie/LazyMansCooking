@@ -73,5 +73,31 @@
                 android:text="Login"
                 android:onClick="login"/>
         </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Click here to continue without login"
+                android:id="@+id/textView3"
+                android:layout_column="0"
+                android:onClick="anonymous"
+                android:layout_span="4"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:gravity="center_horizontal">
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </TableRow>
     </TableLayout>
 </LinearLayout>

@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.action_logout) {
             ParseUser.logOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
