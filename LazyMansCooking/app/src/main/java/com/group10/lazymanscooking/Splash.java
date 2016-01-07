@@ -19,8 +19,8 @@ public class Splash extends Activity {
         //parse
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_id));
         ParseFacebookUtils.initialize(this);
-        ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
-        splashImage.setImageResource(R.drawable.lazymanscooking);
+       // ImageView splashImage = (ImageView) findViewById(R.id.splashImage);
+        //splashImage.setImageResource(R.drawable.cooking1080);
 
         int secondsDelayed = 1;
         new Handler().postDelayed(new Runnable() {
@@ -33,6 +33,6 @@ public class Splash extends Activity {
                 }
                 finish();
             }
-        }, secondsDelayed * 2000);
+        }, secondsDelayed * 3000);
     }
 }

@@ -64,7 +64,8 @@ public class LoginActivity extends AppCompatActivity {
                                     public void done(ParseException ex) {
                                         if (ParseFacebookUtils.isLinked(user)) {
                                             Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-
+                                            Toast.makeText(LoginActivity.this, "You succesfully logged in.", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                                         }
                                     }
@@ -81,7 +82,8 @@ public class LoginActivity extends AppCompatActivity {
                                     public void done(ParseException ex) {
                                         if (ParseFacebookUtils.isLinked(user)) {
                                             Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-
+                                            Toast.makeText(LoginActivity.this, "You succesfully logged in.", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                                         }
                                     }
