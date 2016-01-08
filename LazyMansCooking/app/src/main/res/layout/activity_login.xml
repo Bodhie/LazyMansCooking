@@ -6,7 +6,7 @@
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="300dp"
+        android:layout_width="360dp"
         android:layout_height="match_parent"
         android:gravity="center">
 
@@ -24,17 +24,13 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/viewUsername"
                 android:text="Username"
-                android:textSize="20dp"
-                android:layout_weight="0.2"/>
+                android:textSize="20dp"/>
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/txtUsername"
-                android:layout_weight="0.7"/>
+                android:hint="Username"
+                android:inputType="textPersonName"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -42,18 +38,14 @@
             android:gravity="center_horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/viewPassword"
                 android:text="Password"
-                android:textSize="20dp"
-                android:layout_weight="0.2"/>
+                android:textSize="20dp"/>
             <EditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/txtPassword"
+                android:hint="Password"
                 android:inputType="textPassword"
-                android:layout_weight="0.7"/>
+                android:minWidth="150dp"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"

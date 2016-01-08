@@ -21,9 +21,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        //parse
-        Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_id));
     }
 
     public void addUser(View v){
@@ -43,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     Toast.makeText(RegisterActivity.this, "You succesfully registered", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 } else {
                     Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
