@@ -67,16 +67,12 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == R.id.action_logout) {
-            ParseUser.logOut();
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
-        else if (id == R.id.action_search) {
+        if (id == R.id.action_search) {
             viewPager.setCurrentItem(viewPager.getCurrentItem());
+        }
+        else if(id == R.id.action_advancedSearch)
+        {
+           viewPager.setCurrentItem(5);
         }
 
         return super.onOptionsItemSelected(item);
@@ -125,6 +121,7 @@ public class MainActivity extends AppCompatActivity
                 case 2: return new addRecipeFragment();
                 case 3: return new RecipesFragment();
                 case 4: return new RecipesFragment();
+                case 5: return new AdvancedRecipeSearchFragment();
                 default: return new RecipesFragment();
             }
         }
