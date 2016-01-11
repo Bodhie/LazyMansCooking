@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Lazy mans cooking</string>
+    <string name="logout">Log uit</string>
+    <string name="search">Zoeken</string>
+    <string name="action_settings">Opties</string>
+    <string name="navigation_drawer_open">Open navigatie</string>
+    <string name="navigation_drawer_close">Sluit navigatie</string>
+
+    <string name="add_recipe">Voeg een recept toe</string>
+    <string name="recipe_name">Recept naam</string>
+    <string name="insert_recipe_name">Voer recept naam in</string>
+
+    <!-- parse ids -->
+    <string name="parse_app_id">PuPGePBSCLlAsCqISYYavaMilT8kjxeTSKVkdL6H</string>
+    <string name="parse_client_id">7UFaGvJYlQrRdQA9LQN0g8kPWt8WcCaAPuw3HrAy</string>
+    <string name="facebook_app_id">1658056894457055</string>
+</resources>

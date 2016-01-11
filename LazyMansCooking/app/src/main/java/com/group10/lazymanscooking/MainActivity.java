@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     ViewPager viewPager;
 
     @Override
@@ -40,27 +41,6 @@ public class MainActivity extends AppCompatActivity
         //Set start page
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-    }
-
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int pos) {
-            switch(pos) {
-                case 0: return new RecipesFragment();
-                case 1: return new RecipeFragment();
-                default: return new RecipesFragment();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
     }
 
     @Override
@@ -95,6 +75,9 @@ public class MainActivity extends AppCompatActivity
             ParseUser.logOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+        else if (id == R.id.action_search) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem());
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -107,15 +90,42 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_overview) {
-            //Do something
+            viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_add_recipe) {
-            viewPager.setCurrentItem(1);
-        } else if (id == R.id.nav_search_recipe) {
+            viewPager.setCurrentItem(2);
+        } else if (id == R.id.nav_options) {
 
+        } else if (id == R.id.nav_logout) {
+            ParseUser.logOut();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Menu handler
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        //TODO : ADD NEW PAGES
+        public Fragment getItem(int pos) {
+            switch(pos) {
+                case 0: return new RecipesFragment();
+                case 1: return new RecipeFragment();
+                case 2: return new addRecipeFragment();
+                default: return new RecipesFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 }

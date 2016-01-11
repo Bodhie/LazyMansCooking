@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,9 +25,7 @@ public class RecipesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (rootView == null) {
-            rootView = inflater.inflate(R.layout.activity_recipes, container, false);
-        }
+        rootView = inflater.inflate(R.layout.activity_recipes, container, false);
         ListView listView = (ListView) rootView.findViewById(R.id.recipesListView);
         getRecipes();
 
@@ -46,7 +45,10 @@ public class RecipesFragment extends Fragment {
 
     public void getRecipes()
     {
+//        EditText search = (EditText) rootView.findViewById(R.id.txtSearch);
+//        String titel = search.getText().toString();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Recipe");
+//        query.whereEqualTo("titel", titel);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
