@@ -93,6 +93,10 @@ public class MainActivity extends AppCompatActivity
             viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_add_recipe) {
             viewPager.setCurrentItem(2);
+        } else if (id == R.id.nav_favorite_recipe) {
+            viewPager.setCurrentItem(0);
+        }  else if (id == R.id.nav_my_recipe) {
+            viewPager.setCurrentItem(0);
         } else if (id == R.id.nav_options) {
 
         } else if (id == R.id.nav_logout) {
@@ -119,13 +123,15 @@ public class MainActivity extends AppCompatActivity
                 case 0: return new RecipesFragment();
                 case 1: return new RecipeFragment();
                 case 2: return new addRecipeFragment();
+                case 3: return new RecipesFragment();
+                case 4: return new RecipesFragment();
                 default: return new RecipesFragment();
             }
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 5;
         }
     }
 }

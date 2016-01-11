@@ -6,7 +6,25 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- add NAV -->
+    <string name="nav_overview">Overview</string>
+    <string name="nav_add_recipe">Add recipe</string>
+    <string name="nav_favorite_recipe">Favorite recipe</string>
+    <string name="nav_my_recipe">My recipe</string>
+    <string name="nav_options">options</string>
+    <string name="nav_logout">logout</string>
 
+    <!-- add Login -->
+    <string name="sign_in">Sign in</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="anonymous_users">Continue without login</string>
+
+    <!-- add Register -->
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+
+    <!-- add recipe page -->
     <string name="add_recipe">Add recipe</string>
     <string name="recipe_name">Recipe name</string>
     <string name="insert_recipe_name">Insert recipe name</string>

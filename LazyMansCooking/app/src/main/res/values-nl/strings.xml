@@ -6,6 +6,26 @@
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
 
+    <!-- add NAV -->
+    <string name="nav_verview">Overzicht</string>
+    <string name="nav_add_recipe">Recept toevoegen</string>
+    <string name="nav_favorite_recipe">Favoriete recepten</string>
+    <string name="nav_my_recipe">Mijn recepten</string>
+    <string name="nav_options">Opties</string>
+    <string name="nav_logout">Log uit</string>
+
+    <!-- add Login -->
+    <string name="sign_in">Login</string>
+    <string name="username">Gebruikersnaam</string>
+    <string name="password">Wachtwoord</string>
+    <string name="anonymous_users">Doorgaan zonder in te loggen</string>
+
+
+    <!-- add Register -->
+    <string name="register">Registreer</string>
+    <string name="email">Email</string>
+
+    <!-- add recipe page -->
     <string name="add_recipe">Voeg een recept toe</string>
     <string name="recipe_name">Recept naam</string>
     <string name="insert_recipe_name">Voer recept naam in</string>

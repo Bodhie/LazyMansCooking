@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:background="@drawable/cooking_portrait">
+    android:background="@drawable/cooking_landscape">
 
     <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -79,7 +79,7 @@
                 android:id="@+id/textView3"
                 android:onClick="anonymous"
                 android:layout_span="4"
-                android:textAlignment="center"/>
+                android:textAlignment="center" />
         </TableRow>
 
         <TableRow
