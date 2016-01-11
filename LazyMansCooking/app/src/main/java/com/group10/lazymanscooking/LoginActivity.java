@@ -89,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 });
                             } else {
-
+                                Toast.makeText(LoginActivity.this, "You succesfully logged in.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             }
                         }
                     }
