@@ -118,7 +118,12 @@ public class MainActivity extends AppCompatActivity
                 case 0: return new RecipesFragment();
                 case 1: return new RecipeFragment();
                 case 2: return new addRecipeFragment();
-                case 3: return new RecipesFragment();
+                case 3: RecipesFragment f = new RecipesFragment();
+                    // Supply index input as an argument.
+                    Bundle args = new Bundle();
+                    args.putBoolean("favorite" ,true);
+                    f.setArguments(args);
+                    return f;
                 case 4: return new RecipesFragment();
                 case 5: return new AdvancedRecipeSearchFragment();
                 default: return new RecipesFragment();
