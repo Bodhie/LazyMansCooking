@@ -44,10 +44,8 @@
                 android:text="@string/ingredients"
                 android:inputType="textPersonName"
                 android:layout_weight="0.3"/>
-            <EditText
-                android:id="@+id/txtIngredients"
-                android:hint="@string/insert_ingredients"
-                android:inputType="textPersonName"
+            <ListView
+                android:id="@+id/listViewIngredients"
                 android:layout_weight="0.7"/>
         </TableRow>
         <TableRow
