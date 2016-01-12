@@ -29,6 +29,9 @@
     <string name="add_recipe">Voeg een recept toe</string>
     <string name="recipe_name">Recept naam</string>
     <string name="insert_recipe_name">Voer recept naam in</string>
+    <string name="ingredients">Ingrediënten</string>
+    <string name="insert_ingredients">Voer ingrediënten in</string>
+    <string name="add">Toevoegen</string>
 
     <!-- parse ids -->
     <string name="parse_app_id">PuPGePBSCLlAsCqISYYavaMilT8kjxeTSKVkdL6H</string>
