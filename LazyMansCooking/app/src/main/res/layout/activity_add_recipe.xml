@@ -40,6 +40,49 @@
             android:gravity="center_horizontal">
 
             <TextView
+                android:id="@+id/viewDescription"
+                android:text="@string/recipe_description"
+                android:inputType="textPersonName"
+                android:layout_weight="0.3"/>
+            <EditText
+                android:id="@+id/txtDescription"
+                android:hint="@string/insert_description"
+                android:inputType="textPersonName"
+                android:layout_weight="0.7"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/viewImage"
+                android:text="@string/recipe_image"
+                android:inputType="textPersonName"
+                android:layout_weight="0.3"/>
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:maxHeight="200dp"
+                android:src="@mipmap/ic_launcher" />
+
+            <Button
+                android:id="@+id/btn_pick"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/recipe_image" />
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
                 android:id="@+id/viewIngredients"
                 android:text="@string/ingredients"
                 android:inputType="textPersonName"

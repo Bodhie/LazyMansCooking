@@ -31,6 +31,9 @@
     <string name="insert_recipe_name">Voer recept naam in</string>
     <string name="ingredients">Ingrediënten</string>
     <string name="insert_ingredients">Voer ingrediënten in</string>
+    <string name="recipe_description">Beschrijving</string>
+    <string name="insert_description">Voer een beschrijving in</string>
+    <string name="recipe_image">Afbeelding</string>
     <string name="add">Toevoegen</string>
 
     <!-- parse ids -->

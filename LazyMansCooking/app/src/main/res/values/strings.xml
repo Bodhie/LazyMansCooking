@@ -30,6 +30,9 @@
     <string name="insert_recipe_name">Insert recipe name</string>
     <string name="ingredients">Ingredients</string>
     <string name="insert_ingredients">Insert ingredients</string>
+    <string name="recipe_description">Description</string>
+    <string name="insert_description">Insert description</string>
+    <string name="recipe_image">Image</string>
     <string name="add">Add</string>
 
     <!-- parse ids -->
