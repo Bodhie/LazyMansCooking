@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Fragment newFragment = new RecipesFragment();
+        Fragment searchFragment = new Adv
         
         if (id == R.id.action_search) {
             TextView search = (TextView) findViewById(R.id.txtSearch);
@@ -110,7 +111,10 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id == R.id.action_advancedSearch)
         {
-           //viewPager.setCurrentItem(5);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.pager, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
         // Create new transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
