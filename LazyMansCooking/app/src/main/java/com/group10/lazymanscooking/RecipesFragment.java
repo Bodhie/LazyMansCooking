@@ -1,8 +1,10 @@
 package com.group10.lazymanscooking;
 
 import android.app.FragmentTransaction;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -41,7 +45,8 @@ public class RecipesFragment extends Fragment {
                 public void done(List<ParseObject> objects, ParseException e) {
                     if (e == null) {
                         for (ParseObject recipe : objects) {
-                            Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"));
+
+                            Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
                             recipes.add(mrecipe);
                         }
                         listView.setAdapter(arrayAdapter);
@@ -66,7 +71,7 @@ public class RecipesFragment extends Fragment {
                     public void done(List<ParseObject> objects, ParseException e) {
                         if (e == null) {
                             for (ParseObject recipe : objects) {
-                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"));
+                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
                                 recipes.add(mrecipe);
                             }
                             listView.setAdapter(arrayAdapter);
@@ -83,7 +88,7 @@ public class RecipesFragment extends Fragment {
                     public void done(List<ParseObject> objects, ParseException e) {
                         if (e == null) {
                             for (ParseObject recipe : objects) {
-                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"));
+                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
                                 recipes.add(mrecipe);
                             }
                             listView.setAdapter(arrayAdapter);

@@ -8,11 +8,14 @@ import java.io.Serializable;
 public class Recipe implements Serializable{
     private String objectId;
     private String title;
+    private String description;
 
-    public Recipe(String id, String title)
+
+    public Recipe(String id, String title,String description)
     {
         this.objectId = id;
         this.title = title;
+        this.description = description;
     }
 
     public String getObjectId()
@@ -30,6 +33,15 @@ public class Recipe implements Serializable{
     public void setTitle(String title)
     {
         this.title = title;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+    public String getDescription()
+    {
+        return this.description;
     }
 
     @Override
