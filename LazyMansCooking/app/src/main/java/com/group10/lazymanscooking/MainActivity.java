@@ -1,11 +1,10 @@
 package com.group10.lazymanscooking;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +17,6 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +35,14 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Set start page
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        // get an instance of FragmentTransaction from your Activity
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        //add a fragment
+        RecipesFragment myFragment = new RecipesFragment();
+        fragmentTransaction.add(R.id.pager, myFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -67,11 +70,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem());
+            //viewPager.setCurrentItem(viewPager.getCurrentItem());
         }
         else if(id == R.id.action_advancedSearch)
         {
-           viewPager.setCurrentItem(5);
+           //viewPager.setCurrentItem(5);
         }
 
         return super.onOptionsItemSelected(item);
@@ -83,56 +86,33 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment newFragment = new RecipesFragment();;
 
         if (id == R.id.nav_overview) {
-            viewPager.setCurrentItem(0);
+            newFragment = new RecipesFragment();
         } else if (id == R.id.nav_add_recipe) {
-            viewPager.setCurrentItem(2);
+            newFragment = new addRecipeFragment();
         } else if (id == R.id.nav_favorite_recipe) {
-            viewPager.setCurrentItem(0);
+            newFragment = new RecipesFragment();
         }  else if (id == R.id.nav_my_recipe) {
-            viewPager.setCurrentItem(0);
+            newFragment = new RecipeFragment();
         } else if (id == R.id.nav_options) {
-
+            //Nog niks
         } else if (id == R.id.nav_logout) {
             ParseUser.logOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        // Create new transaction
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack
+        transaction.replace(R.id.pager, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
         return true;
-    }
-
-    //Menu handler
-    private class MyPagerAdapter extends FragmentPagerAdapter {
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        //TODO : ADD NEW PAGES
-        public Fragment getItem(int pos) {
-            switch(pos) {
-                case 0: return new RecipesFragment();
-                case 1: return new RecipeFragment();
-                case 2: return new addRecipeFragment();
-                case 3: RecipesFragment f = new RecipesFragment();
-                    // Supply index input as an argument.
-                    Bundle args = new Bundle();
-                    args.putBoolean("favorite" ,true);
-                    f.setArguments(args);
-                    return f;
-                case 4: return new RecipesFragment();
-                case 5: return new AdvancedRecipeSearchFragment();
-                default: return new RecipesFragment();
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
     }
 }

@@ -1,8 +1,8 @@
 package com.group10.lazymanscooking;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,16 +74,18 @@ public class RecipesFragment extends Fragment {
             });
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                //Change fragment
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.pager, new RecipeFragment());
-                ft.commit();
-//                Intent i = new Intent(RecipeActivity.this, RecipeActivity.class);
-//                Recipe passrecipe = (recipes.get(position));
-//                i.putExtra("recipe", passrecipe);
-//                startActivity(i);
-            }
+                public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
+                    //Change fragment
+                    RecipeFragment recipedetails = new RecipeFragment();
+                    Recipe passrecipe = (recipes.get(position));
+                    Bundle args = new Bundle();
+                    args.putSerializable("recipe",passrecipe);
+                    recipedetails.setArguments(args);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.pager, recipedetails);
+                    ft.show(recipedetails);
+                    ft.commit();
+                }
         });
         return rootView;
     }
