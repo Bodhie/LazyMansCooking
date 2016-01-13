@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.group10.lazymanscooking" >
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,18 +10,49 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <permission android:protectionLevel="signature" android:name="com.parse.starter.permission.C2D_MESSAGE" />
+
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true" />
+
+
+
+    <permission
+        android:name="com.parse.starter.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.group10.lazymanscooking.permission.C2D_MESSAGE" />
 
+    <service android:name="com.parse.PushService" />
+
+    <receiver
+        android:name="com.parse.ParsePushBroadcastReceiver"
+        android:exported="false" >
+        <intent-filter>
+            <action android:name="com.parse.push.intent.RECEIVE" />
+            <action android:name="com.parse.push.intent.DELETE" />
+            <action android:name="com.parse.push.intent.OPEN" />
+        </intent-filter>
+    </receiver>
+    <receiver
+        android:name="com.parse.GcmBroadcastReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND" >
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+            <category android:name="com.group10.lazymanscooking" />
+        </intent-filter>
+    </receiver>
+
     <application
+        android:name=".Database"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".Database" >
+        android:theme="@style/AppTheme" >
         <activity android:name=".Splash" />
-        <activity android:name=".RegisterActivity"
+        <activity
+            android:name=".RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".MainActivity"
@@ -30,14 +61,13 @@
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="com.example.stefan.dialer.MainActivity" />
-
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,30 +75,20 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
-
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".RecipeFragment"
+            android:label="@string/title_activity_recipe_fragment"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
-    <service android:name="com.parse.PushService" />
-    <receiver android:name="com.parse.ParsePushBroadcastReceiver"
-        android:exported="false">
-        <intent-filter>
-            <action android:name="com.parse.push.intent.RECEIVE" />
-            <action android:name="com.parse.push.intent.DELETE" />
-            <action android:name="com.parse.push.intent.OPEN" />
-        </intent-filter>
-    </receiver>
-    <receiver android:name="com.parse.GcmBroadcastReceiver"
-        android:permission="com.google.android.c2dm.permission.SEND">
-        <intent-filter>
-            <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-            <category android:name="com.group10.lazymanscooking" />
-        </intent-filter>
-    </receiver>
+
 </manifest>

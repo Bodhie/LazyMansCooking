@@ -3,7 +3,10 @@ package com.group10.lazymanscooking;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,7 +27,9 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private SensorManager mSensorManager;
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,26 @@ public class MainActivity extends AppCompatActivity
                     return true;
                 }
                 return false;
+            }
+        });
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+				/*
+				 * The following method, "handleShakeEvent(count):" is a stub //
+				 * method you would use to setup whatever you want done once the
+				 * device has been shook.
+				 */
+                //handleShakeEvent(count);
+                Toast.makeText(getApplicationContext(), "Shaken ", Toast.LENGTH_LONG).show();
+                System.out.println("SHAKENNNNNNNNNNN");
+                SearchFunction();
             }
         });
     }
@@ -121,6 +146,31 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void SearchFunction(){
+
+        Fragment newFragment = new RecipesFragment();
+
+
+            TextView search = (TextView) findViewById(R.id.txtSearch);
+            String ssearch = search.getText().toString();
+            System.out.println(ssearch);
+            RecipesFragment f = new RecipesFragment();
+            Bundle args = new Bundle();
+            args.putString("search", ssearch);
+            f.setArguments(args);
+            newFragment = f;
+            System.out.println("search");
+
+
+        // Create new transaction
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.pager, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -158,5 +208,18 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Add the following line to register the Session Manager Listener onResume
+        mSensorManager.registerListener(mShakeDetector, mAccelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        // Add the following line to unregister the Sensor Manager onPause
+        mSensorManager.unregisterListener(mShakeDetector);
+        super.onPause();
     }
 }
