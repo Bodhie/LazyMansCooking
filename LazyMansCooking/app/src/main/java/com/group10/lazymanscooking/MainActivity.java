@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Fragment newFragment = new RecipesFragment();
+        
         if (id == R.id.action_search) {
             //viewPager.setCurrentItem(viewPager.getCurrentItem());
         }
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        Fragment newFragment = new RecipesFragment();;
+        Fragment newFragment = new RecipesFragment();
 
         if (id == R.id.nav_overview) {
             newFragment = new RecipesFragment();
@@ -113,6 +114,10 @@ public class MainActivity extends AppCompatActivity
 
         // Commit the transaction
         transaction.commit();
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 }
