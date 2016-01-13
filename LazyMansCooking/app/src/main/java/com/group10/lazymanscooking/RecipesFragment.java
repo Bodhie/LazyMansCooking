@@ -46,7 +46,8 @@ public class RecipesFragment extends Fragment {
                     if (e == null) {
                         for (ParseObject recipe : objects) {
 
-                            Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
+                            Recipe mrecipe = new Recipe(recipe.getObjectId(), recipe.getString("title"),recipe.getString("description"));
+
                             recipes.add(mrecipe);
                         }
                         listView.setAdapter(arrayAdapter);

@@ -28,7 +28,7 @@
         android:layout_below="@+id/image_header"
         android:layout_alignLeft="@+id/image_header"
         android:layout_alignStart="@+id/image_header"
-        android:textColor="#111111" />
+        android:textColor="#252525" />
 
     <TextView
         android:id="@+id/tvRecipeDescription"
@@ -41,6 +41,34 @@
         android:layout_below="@+id/tvRecipeTitle"
         android:textColor="#636363" />
 
+    <Button
+        android:id="@+id/btnFavorite"
+        android:text="Add to favorites"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tvRecipeDescription"
+        android:background="#510000"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:onClick="addFavorite"
+        android:nestedScrollingEnabled="false" />
+
+    <Button
+        android:id="@+id/btnShare"
+        android:text="Share on Facebook"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="0dp"
+        android:layout_below="@+id/btnFavorite"
+        android:background="#005eb1"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
 </ScrollView>
