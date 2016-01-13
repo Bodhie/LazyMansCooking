@@ -93,7 +93,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_recipe) {
             newFragment = new addRecipeFragment();
         } else if (id == R.id.nav_favorite_recipe) {
-            newFragment = new RecipesFragment();
+            RecipesFragment f = new RecipesFragment();
+            // Supply index input as an argument.
+            Bundle args = new Bundle();
+            args.putBoolean("favorite" ,true);
+            f.setArguments(args);
+            newFragment = f;
         }  else if (id == R.id.nav_my_recipe) {
             newFragment = new RecipeFragment();
         } else if (id == R.id.nav_options) {
