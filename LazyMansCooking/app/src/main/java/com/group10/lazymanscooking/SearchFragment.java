@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,8 @@ public class SearchFragment extends Fragment
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject category : objects) {
-                        IngredientCategory mcategory = new IngredientCategory(category.getString("id"), category.getString("title"));
+                        //System.out.println(category.getString("id") + " " + category.getString("title"));
+                        IngredientCategory mcategory = new IngredientCategory(category.getString("id"), category.getString("name"));
                         categories.add(mcategory);
                     }
                     listView.setAdapter(arrayAdapter);

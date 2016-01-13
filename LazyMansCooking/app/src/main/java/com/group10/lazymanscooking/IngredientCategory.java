@@ -28,4 +28,9 @@ public class IngredientCategory {
     {
         this.title = input;
     }
+
+    @Override
+    public String toString(){
+        return "" + title;
+    }
 }

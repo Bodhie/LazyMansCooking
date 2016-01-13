@@ -17,11 +17,9 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_recipe, container, false);
-        TextView testtv = (TextView)rootView.findViewById(R.id.testtv);
         Bundle data = getArguments();
         if(data != null) {
             Recipe recipe = (Recipe) data.getSerializable("recipe");
-            testtv.setText(recipe.getTitle());
         }
         return rootView;
     }
