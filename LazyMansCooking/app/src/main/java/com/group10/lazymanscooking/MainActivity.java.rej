@@ -1,0 +1,12 @@
+diff a/LazyMansCooking/app/src/main/java/com/group10/lazymanscooking/MainActivity.java b/LazyMansCooking/app/src/main/java/com/group10/lazymanscooking/MainActivity.java	(rejected hunks)
+@@ -114,6 +114,10 @@
+ 
+         // Commit the transaction
+         transaction.commit();
++
++        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
++        drawer.closeDrawer(GravityCompat.START);
++
+         return true;
+     }
+ }
