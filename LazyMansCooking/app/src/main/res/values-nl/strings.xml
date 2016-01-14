@@ -6,6 +6,11 @@
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
 
+    <string name="title_activity_recipe_fragment">Test</string>
+
+    <string name="strTitle">Titel</string>
+    <string name="strDescription">Beschrijving</string>
+
     <!-- add NAV -->
     <string name="nav_verview">Overzicht</string>
     <string name="nav_add_recipe">Recept toevoegen</string>

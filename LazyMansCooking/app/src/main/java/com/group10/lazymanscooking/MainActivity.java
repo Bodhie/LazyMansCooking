@@ -147,24 +147,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void SearchFunction(){
-
-        Fragment newFragment = new RecipesFragment();
-
-
-            TextView search = (TextView) findViewById(R.id.txtSearch);
-            String ssearch = search.getText().toString();
-            System.out.println(ssearch);
-            RecipesFragment f = new RecipesFragment();
-            Bundle args = new Bundle();
-            args.putString("search", ssearch);
-            f.setArguments(args);
-            newFragment = f;
-            System.out.println("search");
-
+        TextView search = (TextView) findViewById(R.id.txtSearch);
+        String ssearch = search.getText().toString();
+        System.out.println(ssearch);
+        RecipesFragment f = new RecipesFragment();
+        Bundle args = new Bundle();
+        args.putString("search", ssearch);
+        f.setArguments(args);
+        System.out.println("search");
 
         // Create new transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.pager, newFragment);
+        transaction.replace(R.id.pager, f);
         transaction.addToBackStack(null);
         transaction.commit();
 

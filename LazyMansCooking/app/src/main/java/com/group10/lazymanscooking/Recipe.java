@@ -1,5 +1,7 @@
 package com.group10.lazymanscooking;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 /**

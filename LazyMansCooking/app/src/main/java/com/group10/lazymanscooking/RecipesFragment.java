@@ -1,9 +1,12 @@
 package com.group10.lazymanscooking;
 
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -27,7 +31,7 @@ import java.util.List;
 public class RecipesFragment extends Fragment {
     View rootView;
     ListView listView;
-    ArrayList<Recipe> recipes;
+    CustomAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,79 +40,34 @@ public class RecipesFragment extends Fragment {
 
 
         listView = (ListView) rootView.findViewById(R.id.recipesListView);
-        recipes = new ArrayList<>();
-        final ArrayAdapter<Recipe> arrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, recipes);
+
         Bundle args = this.getArguments();
         if(args == null) {
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("Recipe");
-            query.findInBackground(new FindCallback<ParseObject>() {
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        for (ParseObject recipe : objects) {
-
-                            Recipe mrecipe = new Recipe(recipe.getObjectId(), recipe.getString("title"),recipe.getString("description"));
-
-                            recipes.add(mrecipe);
-                        }
-                        listView.setAdapter(arrayAdapter);
-                    } else {
-                        Toast.makeText(getActivity(), "Something went wrong while getting the recipes.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "");
+            listView.setAdapter(adapter);
         }
         else{
             String search = args.getString("search", "");
             Boolean favorite = args.getBoolean("favorite", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                ParseQuery<ParseObject> favorites = ParseQuery.getQuery("Favorite");
-                favorites.whereEqualTo("user_id", currentUser.getObjectId());
-
-
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Recipe");
-                query.whereMatchesKeyInQuery("objectId", "recipe_id", favorites);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (e == null) {
-                            for (ParseObject recipe : objects) {
-                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
-                                recipes.add(mrecipe);
-                            }
-                            listView.setAdapter(arrayAdapter);
-                        } else {
-                            Toast.makeText(getActivity(), "Something went wrong while getting the recipes.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                adapter = new CustomAdapter(getActivity(), "Favorite", currentUser.getObjectId());
             }
             else if (!search.isEmpty()) {
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Recipe");
-                query.whereMatches("title", "("+search+")", "i");
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (e == null) {
-                            for (ParseObject recipe : objects) {
-                                Recipe mrecipe = new Recipe(recipe.getString("id"), recipe.getString("title"),recipe.getString("description"));
-                                recipes.add(mrecipe);
-                            }
-                            listView.setAdapter(arrayAdapter);
-                        } else {
-                            Toast.makeText(getActivity(), "Something went wrong while getting the recipes.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+                adapter = new CustomAdapter(getActivity(), "SearchTitle", search);
             }else {
-                //Do nothing
+                adapter = new CustomAdapter(getActivity(), "Recipes", "");
             }
+            listView.setAdapter(adapter);
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                //Change fragment
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ParseObject item = (ParseObject) parent.getItemAtPosition(position);
+                Recipe recipe = new Recipe(item.getObjectId(), item.getString("title"),item.getString("description"));
+
                 RecipeFragment recipedetails = new RecipeFragment();
-                Recipe passrecipe = (recipes.get(position));
                 Bundle args = new Bundle();
-                args.putSerializable("recipe", passrecipe);
+                args.putSerializable("recipe", recipe);
                 recipedetails.setArguments(args);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.pager, recipedetails);

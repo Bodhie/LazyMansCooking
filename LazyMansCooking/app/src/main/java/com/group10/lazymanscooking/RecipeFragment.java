@@ -45,25 +45,28 @@ public class RecipeFragment extends Fragment {
             query.getFirstInBackground(new GetCallback<ParseObject>() {
                 public void done(ParseObject object, ParseException e) {
                     if (object != null) {
+                        try {
+                            ParseFile file = (ParseFile) object.get("image");
+                            file.getDataInBackground(new GetDataCallback() {
 
-                        ParseFile file = (ParseFile) object.get("image");
-                        file.getDataInBackground(new GetDataCallback() {
 
+                                public void done(byte[] data, ParseException e) {
+                                    if (e == null) {
 
-                            public void done(byte[] data, ParseException e) {
-                                if (e == null) {
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                                        //use this bitmap as you want
+                                        Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
+                                        ivRecipe.setImageBitmap(bitmap);
 
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                    //use this bitmap as you want
-                                    Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
-                                    ivRecipe.setImageBitmap(bitmap);
-
-                                } else {
-                                    // something went wrong
-                                    Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        // something went wrong
+                                        Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
 
                     } else {
                         Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();

@@ -26,7 +26,6 @@
             <TextView
                 android:id="@+id/viewName"
                 android:text="@string/recipe_name"
-                android:inputType="textPersonName"
                 android:layout_weight="0.3"/>
             <EditText
                 android:id="@+id/txtTitle"
@@ -42,12 +41,10 @@
             <TextView
                 android:id="@+id/viewDescription"
                 android:text="@string/recipe_description"
-                android:inputType="textPersonName"
                 android:layout_weight="0.3"/>
             <EditText
                 android:id="@+id/txtDescription"
                 android:hint="@string/insert_description"
-                android:inputType="textPersonName"
                 android:layout_weight="0.7"/>
         </TableRow>
         <TableRow

@@ -38,10 +38,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final List<String> permissions = Arrays.asList("public_profile", "email");
 
-        loginButton.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
 
 
                 ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this, permissions, new LogInCallback() {
@@ -114,6 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "You succesfully logged in.", Toast.LENGTH_LONG).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }
+                } else{
+                    Toast.makeText(LoginActivity.this, "Incorrect password or username.", Toast.LENGTH_LONG).show();
                 }
             }
         });
