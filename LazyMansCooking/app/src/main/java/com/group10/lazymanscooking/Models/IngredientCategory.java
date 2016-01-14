@@ -1,13 +1,13 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Models;
 
 /**
  * Created by Anjelo on 13-Jan-16.
  */
-public class Ingredient {
+public class IngredientCategory {
     private String id;
     private String title;
 
-    public Ingredient(String id, String title)
+    public IngredientCategory(String id, String title)
     {
         this.id = id;
         this.title = title;

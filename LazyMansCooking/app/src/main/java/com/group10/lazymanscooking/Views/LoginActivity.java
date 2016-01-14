@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
+import com.group10.lazymanscooking.R;
 import com.parse.LogInCallback;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;

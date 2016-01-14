@@ -44,18 +44,18 @@
     </receiver>
 
     <application
-        android:name=".Database"
+        android:name=".Controllers.Database"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".Splash" />
+        <activity android:name=".Views.Splash" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Views.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" >
@@ -65,7 +65,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Views.LoginActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
@@ -85,7 +85,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".RecipeFragment"
+            android:name=".Views.RecipeFragment"
             android:label="@string/title_activity_recipe_fragment"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>

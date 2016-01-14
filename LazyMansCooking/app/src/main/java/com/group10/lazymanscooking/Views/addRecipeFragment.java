@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;

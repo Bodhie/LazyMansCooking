@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Views;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,11 +18,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.group10.lazymanscooking.R;
+import com.group10.lazymanscooking.Controllers.ShakeDetector;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity

@@ -1,7 +1,6 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Views;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.group10.lazymanscooking.Models.IngredientCategory;
+import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 

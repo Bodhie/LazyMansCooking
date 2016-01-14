@@ -1,10 +1,12 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Controllers;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.group10.lazymanscooking.Models.Recipe;
+import com.group10.lazymanscooking.R;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;

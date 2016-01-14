@@ -1,7 +1,8 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Controllers;
 
 import android.app.Application;
 
+import com.group10.lazymanscooking.R;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
