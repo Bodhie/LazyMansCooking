@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Controllers;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -11,32 +11,32 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.group10.lazymanscooking.Models.Ingredient;
+import com.group10.lazymanscooking.Models.IngredientCategory;
+import com.group10.lazymanscooking.Models.Recipe;
+import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Anjelo on 13-Jan-16.
  */
-public class SearchFragment extends Fragment
+public class SearchIngredientCategoryFragment extends Fragment
 {
     View rootView;
     ListView listView;
     ArrayList<IngredientCategory> categories;
+    ArrayList<Ingredient> chosenIngredients;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_search, container, false);
-        System.out.println("test searchfragment opened");
-
-
         listView = (ListView) rootView.findViewById(R.id.lvCategories);
         categories = new ArrayList<>();
         final ArrayAdapter<IngredientCategory> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, categories);
@@ -45,7 +45,6 @@ public class SearchFragment extends Fragment
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject category : objects) {
-                        //System.out.println(category.getString("id") + " " + category.getString("title"));
                         IngredientCategory mcategory = new IngredientCategory(category.getString("id"), category.getString("name"));
                         categories.add(mcategory);
                     }
@@ -56,17 +55,18 @@ public class SearchFragment extends Fragment
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-                //Change fragment
-//                RecipeFragment recipedetails = new RecipeFragment();
-//                Recipe passrecipe = (recipes.get(position));
-//                Bundle args = new Bundle();
-//                args.putSerializable("recipe", passrecipe);
-//                recipedetails.setArguments(args);
-//                FragmentTransaction ft = getFragmentManager().beginTransaction();
-//                ft.replace(R.id.pager, recipedetails);
-//                ft.show(recipedetails);
-//                ft.commit();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("geklikt");
+                ParseObject item = (ParseObject) parent.getItemAtPosition(position);
+                IngredientCategory clickedCategory = new IngredientCategory(item.getObjectId(), item.getString("title"));
+                SearchIngredientFragment ingredientsByCategory = new SearchIngredientFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("category", clickedCategory);
+                ingredientsByCategory.setArguments(args);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.pager, ingredientsByCategory);
+                ft.show(ingredientsByCategory);
+                ft.commit();
             }
         });
         return rootView;

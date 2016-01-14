@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Controllers;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

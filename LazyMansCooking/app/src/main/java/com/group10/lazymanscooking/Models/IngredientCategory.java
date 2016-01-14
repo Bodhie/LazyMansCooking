@@ -1,24 +1,26 @@
-package com.group10.lazymanscooking;
+package com.group10.lazymanscooking.Models;
+
+import java.io.Serializable;
 
 /**
  * Created by Anjelo on 13-Jan-16.
  */
-public class IngredientCategory {
-    private String id;
+public class IngredientCategory implements Serializable {
+    private String objectId;
     private String title;
 
     public IngredientCategory(String id, String title)
     {
-        this.id = id;
+        this.objectId = id;
         this.title = title;
     }
-    public String getId()
+    public String getobjectId()
     {
-        return this.id;
+        return this.objectId;
     }
-    public void setId(String input)
+    public void setobjectId(String input)
     {
-        this.id = input;
+        this.objectId = input;
     }
     public String getTitle()
     {
