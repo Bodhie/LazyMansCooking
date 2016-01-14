@@ -38,7 +38,7 @@ public class RecipesFragment extends Fragment {
             Boolean favorite = args.getBoolean("favorite", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "Favorite", currentUser.getObjectId());
+                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId());
             }
             else if (!search.isEmpty()) {
                 adapter = new CustomAdapter(getActivity(), "SearchTitle", search);
