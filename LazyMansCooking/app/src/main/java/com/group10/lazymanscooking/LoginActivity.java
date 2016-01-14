@@ -33,6 +33,13 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        } else {
+            //Niks
+        }
+
 
         loginButton = (LoginButton) findViewById(R.id.login_button);
 

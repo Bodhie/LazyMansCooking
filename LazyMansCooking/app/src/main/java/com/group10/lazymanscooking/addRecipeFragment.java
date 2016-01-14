@@ -1,6 +1,8 @@
 package com.group10.lazymanscooking;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Fragment;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -33,7 +37,7 @@ import java.util.List;
  */
 public class addRecipeFragment extends Fragment implements View.OnClickListener {
     View rootView;
-    List<String> ingredients;
+    List<Ingredient> ingredients;
     ListView listView;
     private static final int SELECT_PHOTO = 1;
 
@@ -49,7 +53,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         listView = (ListView) rootView.findViewById(R.id.listViewIngredients);
         ingredients = new ArrayList<>();
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),  android.R.layout.select_dialog_multichoice, ingredients);
+        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(getActivity(), android.R.layout.select_dialog_multichoice, ingredients);
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Ingredient");
         query.addAscendingOrder("name");
@@ -58,8 +62,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject ingredient : objects) {
-                        String name = ingredient.getString("name");
-                        ingredients.add(name);
+                        Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
+                        ingredients.add(addIngredient);
                     }
                     listView.setAdapter(adapter);
                 }
@@ -101,8 +105,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         }
     }
 
-
     public void addRecipe(View v){
+        //Insert into recipe
         EditText viewTitle = (EditText) rootView.findViewById(R.id.txtTitle);
         String title = viewTitle.getText().toString();
         EditText viewDescription = (EditText) rootView.findViewById(R.id.txtDescription);
@@ -114,18 +118,47 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         byte[] image = stream.toByteArray();
         ParseFile file = new ParseFile("image.png", image);
 
-        ParseObject recipe = new ParseObject("Recipe");
+        final ParseObject recipe = new ParseObject("Recipe");
         recipe.put("title", title);
         recipe.put("description", description);
         recipe.put("image", file);
-        recipe.saveInBackground();
+        //Add ingredients to recipe
+        recipe.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    //saved successfully
+                    String objectId = recipe.getObjectId();
+                    System.out.println(objectId);
+
+                    ListView viewIngredients = (ListView) rootView.findViewById(R.id.listViewIngredients);
+                    SparseBooleanArray checkedItems = viewIngredients.getCheckedItemPositions();
+                    if (checkedItems != null) {
+                        for (int i=0; i<checkedItems.size(); i++) {
+                            if (checkedItems.valueAt(i)) {
+                                Ingredient ingredient = (Ingredient) viewIngredients.getAdapter().getItem(checkedItems.keyAt(i));
+                                //Ingredient ingredient = new Ingredient(item.getObjectId(), item.getString("name"));
+                                System.out.println(ingredient + "was selected");
+                                final ParseObject ingredientInsert = new ParseObject("RecipeIngredient");
+                                ingredientInsert.put("recipeId", objectId);
+                                ingredientInsert.put("ingredientId", ingredient.getId());
+                                ingredientInsert.saveInBackground();
+                            }
+                        }
+                    }
+                    final ParseObject ingredients = new ParseObject("Recipe");
+                }
+
+            }
+        });
+
 
         //Change fragment
-//        FragmentManager fragmentManager = getFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.pager, new  RecipesFragment());
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.pager, new RecipesFragment());
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

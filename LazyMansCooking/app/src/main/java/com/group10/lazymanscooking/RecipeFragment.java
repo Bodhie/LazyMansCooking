@@ -7,10 +7,13 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -19,12 +22,17 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Stefan on 2016-01-08.
  */
 public class RecipeFragment extends Fragment {
     View rootView;
     Recipe recipe;
+    List<Ingredient> ingredients;
+    ListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +83,29 @@ public class RecipeFragment extends Fragment {
                 }
             });
         }
+
+        //Set ingredients
+        listView = (ListView) rootView.findViewById(R.id.listViewIngredients);
+        ingredients = new ArrayList<>();
+        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
+
+        ParseQuery<ParseObject> recipeIngredient = ParseQuery.getQuery("RecipeIngredient");
+        recipeIngredient.whereEqualTo("recipeId", recipe.getObjectId());
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Ingredient");
+        query.whereMatchesKeyInQuery("objectId", "ingredientId", recipeIngredient);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject ingredient : objects) {
+                        Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
+                        ingredients.add(addIngredient);
+                    }
+                    listView.setAdapter(adapter);
+                }
+            }
+        });
         return rootView;
     }
 

@@ -86,7 +86,9 @@
                 android:layout_weight="0.3"/>
             <ListView
                 android:id="@+id/listViewIngredients"
-                android:layout_weight="0.7"/>
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"/>
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
