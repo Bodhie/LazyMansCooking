@@ -55,9 +55,9 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         listView = (ListView) rootView.findViewById(R.id.listViewIngredients);
         ingredients = new ArrayList<>();
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(getActivity(), android.R.layout.select_dialog_multichoice, ingredients);
+        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_multichoice, ingredients);
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Ingredient");
+        ParseQuery<ParseObject> query = new ParseQuery<>("Ingredient");
         query.addAscendingOrder("name");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

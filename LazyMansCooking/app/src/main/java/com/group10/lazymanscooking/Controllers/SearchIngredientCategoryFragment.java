@@ -56,9 +56,7 @@ public class SearchIngredientCategoryFragment extends Fragment
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("geklikt");
-                ParseObject item = (ParseObject) parent.getItemAtPosition(position);
-                IngredientCategory clickedCategory = new IngredientCategory(item.getObjectId(), item.getString("title"));
+                IngredientCategory clickedCategory = (IngredientCategory)parent.getItemAtPosition(position);
                 SearchIngredientFragment ingredientsByCategory = new SearchIngredientFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("category", clickedCategory);
