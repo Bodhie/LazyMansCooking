@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking.Views;
+package com.group10.lazymanscooking.Controllers;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.group10.lazymanscooking.R;
-import com.group10.lazymanscooking.Controllers.ShakeDetector;
 import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if(id == R.id.action_advancedSearch)
         {
-            newFragment = new SearchFragment();
+            newFragment = new SearchIngredientCategoryFragment();
         }
         // Create new transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

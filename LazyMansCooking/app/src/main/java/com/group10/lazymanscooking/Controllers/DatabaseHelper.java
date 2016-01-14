@@ -9,7 +9,7 @@ import com.parse.ParseFacebookUtils;
 /**
  * Created by Stefan on 2016-01-11.
  */
-public class Database extends Application {
+public class DatabaseHelper extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

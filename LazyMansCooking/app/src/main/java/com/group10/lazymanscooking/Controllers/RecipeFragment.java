@@ -1,4 +1,4 @@
-package com.group10.lazymanscooking.Views;
+package com.group10.lazymanscooking.Controllers;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
