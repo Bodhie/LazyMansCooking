@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
+import com.group10.lazymanscooking.RecipeFragment;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 

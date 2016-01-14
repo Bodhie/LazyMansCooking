@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -142,7 +143,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                                 System.out.println(ingredient + "was selected");
                                 final ParseObject ingredientInsert = new ParseObject("RecipeIngredient");
                                 ingredientInsert.put("recipeId", objectId);
-                                ingredientInsert.put("ingredientId", ingredient.getId());
+                                ingredientInsert.put("ingredientId", ingredient.getobjectId());
                                 ingredientInsert.saveInBackground();
                             }
                         }
