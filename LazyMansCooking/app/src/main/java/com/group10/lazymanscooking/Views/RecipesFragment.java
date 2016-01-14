@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.group10.lazymanscooking.Controllers.CustomAdapter;
 import com.group10.lazymanscooking.Models.Recipe;
@@ -38,7 +39,8 @@ public class RecipesFragment extends Fragment {
             Boolean favorite = args.getBoolean("favorite", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "Favorite", currentUser.getObjectId());
+                Toast.makeText(getActivity(), "Selected favorite", Toast.LENGTH_LONG).show();
+                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId());
             }
             else if (!search.isEmpty()) {
                 adapter = new CustomAdapter(getActivity(), "SearchTitle", search);
