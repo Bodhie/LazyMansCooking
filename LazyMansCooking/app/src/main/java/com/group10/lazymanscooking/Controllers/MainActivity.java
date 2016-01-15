@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -91,7 +92,8 @@ public class MainActivity extends AppCompatActivity
 				 */
                 //handleShakeEvent(count);
                 Toast.makeText(getApplicationContext(), "Shaken ", Toast.LENGTH_LONG).show();
-                System.out.println("SHAKENNNNNNNNNNN");
+                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                v.vibrate(500);
                 SearchFunction();
             }
         });

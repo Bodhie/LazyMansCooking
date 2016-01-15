@@ -4,10 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class RecipeFragment extends Fragment {
     Recipe recipe;
     List<Ingredient> ingredients;
     ListView listView;
+    Button addFavorite;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class RecipeFragment extends Fragment {
         TextView tvRecipeTitle = (TextView)rootView.findViewById(R.id.tvRecipeTitle);
         TextView tvRecipeDescription= (TextView)rootView.findViewById(R.id.tvRecipeDescription);
         final ImageView ivRecipe = (ImageView) rootView.findViewById(R.id.image_header);
+        addFavorite = (Button) rootView.findViewById(R.id.btnFavorite);
 
         Bundle data = getArguments();
         if(data != null) {
@@ -108,25 +112,55 @@ public class RecipeFragment extends Fragment {
                 }
             }
         });
+
+        final ParseUser currentUser = ParseUser.getCurrentUser();
+
+
+
+        ParseQuery<ParseObject> query1 = new ParseQuery<ParseObject>("Favorite");
+        query1.whereEqualTo("user_id", currentUser.getObjectId());
+        query1.whereEqualTo("recipe_id", recipe.getObjectId());
+
+        query1.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(final ParseObject object, ParseException e) {
+                if (e == null) {
+                    //object exists
+                    addFavorite.setText("Remove from Favorites");
+                    Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
+                    addFavorite.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            object.deleteInBackground();
+                            addFavorite.setText("Removed from Favorites");
+                        }
+                    });
+
+
+                } else {
+                    if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
+                        //object doesn't exist
+                        addFavorite.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                ParseObject favorite = new ParseObject("Favorite");
+                                favorite.put("user_id", currentUser.getObjectId());
+                                favorite.put("recipe_id", recipe.getObjectId());
+                                favorite.saveInBackground();
+                                addFavorite.setText("Added to Favorites");
+                            }
+                        });
+
+
+                    } else {
+                        //unknown error, debug
+                        Toast.makeText(getActivity(), "Errore", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+
         return rootView;
     }
 
-    public void addFavorite(View v){
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        ParseObject favorite = new ParseObject("Favorite");
-        favorite.put("user_id", currentUser.getObjectId());
-        favorite.put("recipe_id", recipe.getObjectId());
-        favorite.saveInBackground();
-
-    }
-
-
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnFavorite:
-                addFavorite(v);
-                break;
-        }
-    }
 }
