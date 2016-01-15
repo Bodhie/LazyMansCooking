@@ -34,7 +34,6 @@ public class SearchIngredientCategoryFragment extends Fragment
     ListView ingredientslistView;
     ArrayList<IngredientCategory> categories = new ArrayList<>();
     ArrayList<Ingredient> chosenIngredients = new ArrayList<>();
-    Ingredient chosenIngredient;
     Bundle data;
 
     @Override
@@ -65,10 +64,7 @@ public class SearchIngredientCategoryFragment extends Fragment
         }
         if(data != null)
         {
-            chosenIngredient = (Ingredient)data.getSerializable("ingredient");
-            System.out.println(chosenIngredient.getTitle());
             chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
-            chosenIngredients.add(chosenIngredient);
         }
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
@@ -93,10 +89,11 @@ public class SearchIngredientCategoryFragment extends Fragment
         categorieslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IngredientCategory clickedCategory = (IngredientCategory) parent.getItemAtPosition(position);
+                System.out.println(clickedCategory);
                 SearchIngredientFragment ingredientsByCategory = new SearchIngredientFragment();
                 Bundle args = new Bundle();
-                args.putSerializable("category", clickedCategory);
                 args.putSerializable("ingredientlist",chosenIngredients);
+                args.putSerializable("category", clickedCategory);
                 ingredientsByCategory.setArguments(args);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.pager, ingredientsByCategory);
