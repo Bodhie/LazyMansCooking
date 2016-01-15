@@ -60,7 +60,6 @@
             android:background="#510000"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
-            android:onClick="addFavorite"
             android:nestedScrollingEnabled="false" />
 
         <Button
