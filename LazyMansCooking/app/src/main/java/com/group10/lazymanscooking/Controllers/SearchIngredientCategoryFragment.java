@@ -58,6 +58,11 @@ public class SearchIngredientCategoryFragment extends Fragment
 
     private void initIngredients()
     {
+        if(chosenIngredients.size() == 0)
+        {
+            TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
+            ingredientslistView.setEmptyView(tvEmpty);
+        }
         if(data != null)
         {
             chosenIngredient = (Ingredient)data.getSerializable("ingredient");
@@ -67,7 +72,6 @@ public class SearchIngredientCategoryFragment extends Fragment
         }
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
-
     }
     private void initCatories()
     {
