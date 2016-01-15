@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class SearchIngredientCategoryFragment extends Fragment
         {
             TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
             ingredientslistView.setEmptyView(tvEmpty);
+            enableButtonClick();
         }
         if(data != null)
         {
@@ -69,6 +71,25 @@ public class SearchIngredientCategoryFragment extends Fragment
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
     }
+
+    private void enableButtonClick() {
+        Button btnSearch = (Button)rootView.findViewById(R.id.btnSearch);
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //open recipesfragment
+                RecipesFragment recipesfragment = new RecipesFragment();
+                Bundle args = new Bundle();
+                args.putSerializable("ingredientlist",chosenIngredients);
+                recipesfragment.setArguments(args);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.pager, recipesfragment);
+                ft.show(recipesfragment);
+                ft.commit();
+            }
+        });
+    }
+
     private void initCatories()
     {
         final ArrayAdapter<IngredientCategory> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, categories);
@@ -77,7 +98,7 @@ public class SearchIngredientCategoryFragment extends Fragment
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     for (ParseObject category : objects) {
-                        IngredientCategory mcategory = new IngredientCategory(category.getString("id"), category.getString("name"));
+                        IngredientCategory mcategory = new IngredientCategory(category.getObjectId(), category.getString("name"));
                         categories.add(mcategory);
                     }
                     categorieslistView.setAdapter(arrayAdapter);
@@ -89,7 +110,6 @@ public class SearchIngredientCategoryFragment extends Fragment
         categorieslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IngredientCategory clickedCategory = (IngredientCategory) parent.getItemAtPosition(position);
-                System.out.println(clickedCategory);
                 SearchIngredientFragment ingredientsByCategory = new SearchIngredientFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("ingredientlist",chosenIngredients);

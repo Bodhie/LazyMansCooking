@@ -50,7 +50,7 @@
 
         <Button
             android:id="@+id/btnFavorite"
-            android:text="Add to favorites"
+            android:text="@string/add_to_Favorites"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:layout_width="fill_parent"
@@ -64,7 +64,7 @@
 
         <Button
             android:id="@+id/btnShare"
-            android:text="Share on Facebook"
+            android:text="@string/share_on_Facebook"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:layout_width="fill_parent"

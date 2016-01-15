@@ -9,16 +9,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
 import com.group10.lazymanscooking.RecipeFragment;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+
 public class RecipesFragment extends Fragment {
     View rootView;
     ListView listView;
     CustomAdapter adapter;
+    ArrayList<Ingredient> chosenIngredients;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +37,15 @@ public class RecipesFragment extends Fragment {
             CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "");
             listView.setAdapter(adapter);
         }
-        else{
+        else if (args.getSerializable("ingredientlist") != null) {
+            //search recipes by chosen ingredients
+            chosenIngredients = (ArrayList)args.getSerializable("ingredientlist");
+            //TODO create query to search the database for recipes according to the available ingredients.
+
+
+        }
+        else
+        {
             String search = args.getString("search", "");
             Boolean favorite = args.getBoolean("favorite", false);
             if (favorite) {
@@ -50,7 +62,7 @@ public class RecipesFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ParseObject item = (ParseObject) parent.getItemAtPosition(position);
-                Recipe recipe = new Recipe(item.getObjectId(), item.getString("title"),item.getString("description"));
+                Recipe recipe = new Recipe(item.getObjectId(), item.getString("title"), item.getString("description"));
 
                 RecipeFragment recipedetails = new RecipeFragment();
                 Bundle args = new Bundle();

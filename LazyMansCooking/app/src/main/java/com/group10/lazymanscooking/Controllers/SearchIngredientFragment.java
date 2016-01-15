@@ -50,9 +50,7 @@ public class SearchIngredientFragment extends Fragment {
         getData();
         if(data != null) {
             category = (IngredientCategory) data.getSerializable("category");
-            System.out.println(category.getobjectId());
             chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
-            System.out.println(chosenIngredients);
             final ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
             ParseQuery<ParseObject> query = new ParseQuery<>("Ingredient");
             query.addAscendingOrder("name");
@@ -76,8 +74,6 @@ public class SearchIngredientFragment extends Fragment {
                 Ingredient clickedIngredient = (Ingredient)parent.getItemAtPosition(position);
                 SearchIngredientCategoryFragment MainSearch = new SearchIngredientCategoryFragment();
                 Bundle args = new Bundle();
-                System.out.println(chosenIngredients);
-                System.out.println(chosenIngredients.contains(clickedIngredient.getobjectId()));
                 boolean ingredientExists = false;
                 for(Ingredient ingredient : chosenIngredients)
                 {
