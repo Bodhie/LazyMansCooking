@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.group10.lazymanscooking.Models.Ingredient;
@@ -29,16 +30,47 @@ import java.util.List;
 public class SearchIngredientCategoryFragment extends Fragment
 {
     View rootView;
-    ListView listView;
-    ArrayList<IngredientCategory> categories;
-    ArrayList<Ingredient> chosenIngredients;
+    ListView categorieslistView;
+    ListView ingredientslistView;
+    ArrayList<IngredientCategory> categories = new ArrayList<>();
+    ArrayList<Ingredient> chosenIngredients = new ArrayList<>();
+    Ingredient chosenIngredient;
+    Bundle data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_search, container, false);
-        listView = (ListView) rootView.findViewById(R.id.lvCategories);
+        categorieslistView = (ListView) rootView.findViewById(R.id.lvCategories);
+        ingredientslistView = (ListView) rootView.findViewById(R.id.lvChosenIngredients);
         categories = new ArrayList<>();
+        getDataFromFragment();
+        initIngredients();
+        initCatories();
+
+
+        return rootView;
+    }
+    private void getDataFromFragment()
+    {
+            data = getArguments();
+    }
+
+    private void initIngredients()
+    {
+        if(data != null)
+        {
+            chosenIngredient = (Ingredient)data.getSerializable("ingredient");
+            System.out.println(chosenIngredient.getTitle());
+            chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
+            chosenIngredients.add(chosenIngredient);
+        }
+        ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
+        ingredientslistView.setAdapter(arrayAdapter);
+
+    }
+    private void initCatories()
+    {
         final ArrayAdapter<IngredientCategory> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, categories);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("IngredientCategory");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -48,18 +80,19 @@ public class SearchIngredientCategoryFragment extends Fragment
                         IngredientCategory mcategory = new IngredientCategory(category.getString("id"), category.getString("name"));
                         categories.add(mcategory);
                     }
-                    listView.setAdapter(arrayAdapter);
+                    categorieslistView.setAdapter(arrayAdapter);
                 } else {
                     Toast.makeText(getActivity(), "Something went wrong while getting the categories.", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        categorieslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                IngredientCategory clickedCategory = (IngredientCategory)parent.getItemAtPosition(position);
+                IngredientCategory clickedCategory = (IngredientCategory) parent.getItemAtPosition(position);
                 SearchIngredientFragment ingredientsByCategory = new SearchIngredientFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("category", clickedCategory);
+                args.putSerializable("ingredientlist",chosenIngredients);
                 ingredientsByCategory.setArguments(args);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.pager, ingredientsByCategory);
@@ -67,7 +100,5 @@ public class SearchIngredientCategoryFragment extends Fragment
                 ft.commit();
             }
         });
-        return rootView;
     }
-
 }

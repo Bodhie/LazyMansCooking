@@ -39,6 +39,11 @@
     <string name="recipe_image">Image</string>
     <string name="add">Add</string>
 
+    <!-- search category page -->
+    <string name = "search_ingredients">Chosen ingredients</string>
+    <string name = "search_categories">Available ingredient categories</string>
+    <string name = "search_empty">Your chosen ingredients will be here!</string>
+
     <!-- parse ids -->
     <string name="parse_app_id">PuPGePBSCLlAsCqISYYavaMilT8kjxeTSKVkdL6H</string>
     <string name="parse_client_id">7UFaGvJYlQrRdQA9LQN0g8kPWt8WcCaAPuw3HrAy</string>
