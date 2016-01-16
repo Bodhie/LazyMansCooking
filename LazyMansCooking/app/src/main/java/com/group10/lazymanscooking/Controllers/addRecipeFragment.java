@@ -27,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -119,11 +120,13 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] image = stream.toByteArray();
         ParseFile file = new ParseFile("image.png", image);
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
         final ParseObject recipe = new ParseObject("Recipe");
         recipe.put("title", title);
         recipe.put("description", description);
         recipe.put("image", file);
+        recipe.put("creatorId", currentUser.getObjectId());
         //Add ingredients to recipe
         recipe.saveInBackground(new SaveCallback() {
             @Override
