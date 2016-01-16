@@ -59,6 +59,12 @@ public class RecipesFragment extends Fragment {
             }
             listView.setAdapter(adapter);
         }
+        setClickListener();
+        return rootView;
+    }
+
+    public void setClickListener()
+    {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ParseObject item = (ParseObject) parent.getItemAtPosition(position);
@@ -74,6 +80,5 @@ public class RecipesFragment extends Fragment {
                 ft.commit();
             }
         });
-        return rootView;
     }
 }
