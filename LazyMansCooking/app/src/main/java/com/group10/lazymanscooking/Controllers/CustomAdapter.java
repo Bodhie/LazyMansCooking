@@ -24,12 +24,16 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 		super(context, new QueryFactory<ParseObject>() {
 			public ParseQuery create() {
 				ParseQuery<ParseObject> query;
-				if(clause.equals("favorite")){
+				if(clause.equals("favorite")) {
 					ParseQuery<ParseObject> favorites = ParseQuery.getQuery("Favorite");
 					favorites.whereEqualTo("user_id", value);
 
 					query = ParseQuery.getQuery("Recipe");
 					query.whereMatchesKeyInQuery("objectId", "recipe_id", favorites);
+				}
+				else if(clause.equals("myRecipe")){
+					query = ParseQuery.getQuery("Recipe");
+					query.whereEqualTo("creatorId", value);
 				} else if(clause.equals("SearchTitle")){
 					query = ParseQuery.getQuery("Recipe");
 					query.whereMatches("title", "(" + value + ")", "i");

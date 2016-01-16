@@ -200,7 +200,12 @@ public class MainActivity extends AppCompatActivity
             f.setArguments(args);
             newFragment = f;
         }  else if (id == R.id.nav_my_recipe) {
-            newFragment = new RecipesFragment();
+            RecipesFragment f = new RecipesFragment();
+            // Supply index input as an argument.
+            Bundle args = new Bundle();
+            args.putBoolean("myRecipe" ,true);
+            f.setArguments(args);
+            newFragment = f;
         } else if (id == R.id.nav_options) {
             //Nog niks
         } else if (id == R.id.nav_logout) {

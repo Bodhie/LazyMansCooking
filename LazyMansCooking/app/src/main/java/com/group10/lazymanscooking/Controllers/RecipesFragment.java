@@ -48,11 +48,14 @@ public class RecipesFragment extends Fragment {
         {
             String search = args.getString("search", "");
             Boolean favorite = args.getBoolean("favorite", false);
+            Boolean myRecipe = args.getBoolean("myRecipe", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId());
-            }
-            else if (!search.isEmpty()) {
+            } else if (myRecipe) {
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId());
+            } else if (!search.isEmpty()) {
                 adapter = new CustomAdapter(getActivity(), "SearchTitle", search);
             }else {
                 adapter = new CustomAdapter(getActivity(), "Recipes", "");
