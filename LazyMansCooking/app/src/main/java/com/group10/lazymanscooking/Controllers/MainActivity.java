@@ -91,10 +91,14 @@ public class MainActivity extends AppCompatActivity
 				 * device has been shook.
 				 */
                 //handleShakeEvent(count);
-                Toast.makeText(getApplicationContext(), "Shaken ", Toast.LENGTH_LONG).show();
-                Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                v.vibrate(500);
-                SearchFunction();
+                TextView search = (TextView) findViewById(R.id.txtSearch);
+                String input = search.getText().toString();
+                if(!input.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Shaken ", Toast.LENGTH_LONG).show();
+                    Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    v.vibrate(500);
+                    SearchFunction();
+                }
             }
         });
     }

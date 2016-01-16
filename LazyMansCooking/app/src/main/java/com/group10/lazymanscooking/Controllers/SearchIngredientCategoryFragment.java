@@ -35,18 +35,22 @@ public class SearchIngredientCategoryFragment extends Fragment
     ListView ingredientslistView;
     ArrayList<IngredientCategory> categories = new ArrayList<>();
     ArrayList<Ingredient> chosenIngredients = new ArrayList<>();
+    Button btnSearch;
     Bundle data;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //initialize layout variables
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_search, container, false);
         categorieslistView = (ListView) rootView.findViewById(R.id.lvCategories);
         ingredientslistView = (ListView) rootView.findViewById(R.id.lvChosenIngredients);
+        btnSearch = (Button)rootView.findViewById(R.id.btnSearch);
         categories = new ArrayList<>();
         getDataFromFragment();
         initIngredients();
         initCatories();
+
 
 
         return rootView;
@@ -58,39 +62,40 @@ public class SearchIngredientCategoryFragment extends Fragment
 
     private void initIngredients()
     {
-        if(chosenIngredients.size() == 0)
-        {
-            TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
-            ingredientslistView.setEmptyView(tvEmpty);
-            enableButtonClick();
-        }
+        //user came from the main activity and hasn't chosen any ingredients to search recipes with.
         if(data != null)
         {
             chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
         }
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
+        Toast.makeText(getActivity(),"array size is : " + chosenIngredients.size(),Toast.LENGTH_LONG).show();
+        if(chosenIngredients.size() == 0)
+        {
+            TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
+            ingredientslistView.setEmptyView(tvEmpty);
+
+        }
+        else if (chosenIngredients.size() != 0)
+        {
+            btnSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //open recipesfragment
+                    RecipesFragment recipesfragment = new RecipesFragment();
+                    Bundle args = new Bundle();
+                    args.putSerializable("ingredientlist", chosenIngredients);
+                    recipesfragment.setArguments(args);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.pager, recipesfragment);
+                    ft.show(recipesfragment);
+                    ft.commit();
+                }
+            });
+        }
     }
 
-    private void enableButtonClick() {
-        Button btnSearch = (Button)rootView.findViewById(R.id.btnSearch);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open recipesfragment
-                RecipesFragment recipesfragment = new RecipesFragment();
-                Bundle args = new Bundle();
-                args.putSerializable("ingredientlist",chosenIngredients);
-                recipesfragment.setArguments(args);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.pager, recipesfragment);
-                ft.show(recipesfragment);
-                ft.commit();
-            }
-        });
-    }
-
-    private void initCatories()
+        private void initCatories()
     {
         final ArrayAdapter<IngredientCategory> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, categories);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("IngredientCategory");
