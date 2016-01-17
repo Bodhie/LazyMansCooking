@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
             f.setArguments(args);
             newFragment = f;
         } else if (id == R.id.nav_options) {
-            //Nog niks
+            newFragment = new OptionFragment();
         } else if (id == R.id.nav_logout) {
             ParseUser.logOut();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));

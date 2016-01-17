@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_options"
+            android:textAlignment="center"
+            android:textSize="40dp"/>
+
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/viewLocal"
+                android:text="@string/save_my_recipe_local"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.3"/>
+            <CheckBox
+                android:id="@+id/radioLocal"
+                android:inputType="textPersonName"
+                android:layout_weight="0.3"/>
+            <TextView
+                android:id="@+id/viewYes"
+                android:text="@string/yesno"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.3"/>
+        </TableRow>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/btnSave"
+            android:text="@string/save"
+            android:layout_span="2"
+            android:onClick="saveOption"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"
+            android:background="#005eb1"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:nestedScrollingEnabled="false" />
+    </TableLayout>
+</RelativeLayout>
