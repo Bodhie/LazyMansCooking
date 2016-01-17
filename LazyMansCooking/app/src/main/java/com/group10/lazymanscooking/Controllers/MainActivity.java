@@ -47,16 +47,12 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Set start page
-        // get an instance of FragmentTransaction from your Activity
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //add a fragment
-        RecipesFragment myFragment = new RecipesFragment();
-        fragmentTransaction.add(R.id.pager, myFragment);
-        fragmentTransaction.commit();
-
+        setStartFragment();
+        setSearchbarKeyListener();
+        setShakeDetector();
+    }
+    public void setSearchbarKeyListener()
+    {
         //Enter handler
         final EditText edittext = (EditText) findViewById(R.id.txtSearch);
         edittext.setOnKeyListener(new View.OnKeyListener() {
@@ -76,7 +72,9 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-
+    }
+    public void setShakeDetector()
+    {
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -103,6 +101,18 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    public void setStartFragment()
+    {
+        //Set start page
+        // get an instance of FragmentTransaction from your Activity
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        //add a fragment
+        RecipesFragment myFragment = new RecipesFragment();
+        fragmentTransaction.add(R.id.pager, myFragment);
+        fragmentTransaction.commit();
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
