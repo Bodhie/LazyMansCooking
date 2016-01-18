@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
 import com.parse.ParseFile;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 
 	public ArrayList<Recipe> recipes = new ArrayList<>();
-	public CustomAdapter(Context context, final String clause, final String value) {
+	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
 		// Use the QueryFactory to construct a PQA that will only show
 		// Todos marked as high-pri
 		super(context, new QueryFactory<ParseObject>() {
@@ -31,7 +32,18 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 					query = ParseQuery.getQuery("Recipe");
 					query.whereMatchesKeyInQuery("objectId", "recipe_id", favorites);
 				}
-				else if(clause.equals("myRecipe")){
+				else if(clause.equals("advancedSearch")) {
+					ParseQuery<ParseObject> ingredientRecipe = ParseQuery.getQuery("RecipeIngredient");
+					ingredientRecipe.whereContainedIn("ingredientId", array);
+
+					ParseQuery<ParseObject> notIngredientRecipe = ParseQuery.getQuery("RecipeIngredient");
+					notIngredientRecipe.whereMatchesKeyInQuery("recipeId", "recipeId", ingredientRecipe);
+					notIngredientRecipe.whereNotContainedIn("ingredientId", array);
+
+					query = ParseQuery.getQuery("Recipe");
+					query.whereMatchesKeyInQuery("objectId", "recipeId", ingredientRecipe);
+					query.whereDoesNotMatchKeyInQuery("objectId", "recipeId", notIngredientRecipe);
+				} else if(clause.equals("myRecipe")){
 					query = ParseQuery.getQuery("Recipe");
 					query.whereEqualTo("creatorId", value);
 				} else if(clause.equals("SearchTitle")){

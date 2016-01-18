@@ -34,15 +34,19 @@ public class RecipesFragment extends Fragment {
 
         Bundle args = this.getArguments();
         if(args == null) {
-            CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "");
+            CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "", null);
             listView.setAdapter(adapter);
         }
         else if (args.getSerializable("ingredientlist") != null) {
             //search recipes by chosen ingredients
             chosenIngredients = (ArrayList)args.getSerializable("ingredientlist");
+            ArrayList<String> ingredientsId = new ArrayList<>();
+            for(Ingredient ingredient : chosenIngredients){
+                ingredientsId.add(ingredient.getobjectId());
+            }
             //TODO create query to search the database for recipes according to the available ingredients.
-
-
+            adapter = new CustomAdapter(getActivity(), "advancedSearch", "", ingredientsId);
+            listView.setAdapter(adapter);
         }
         else
         {
@@ -51,14 +55,14 @@ public class RecipesFragment extends Fragment {
             Boolean myRecipe = args.getBoolean("myRecipe", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId());
+                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId(), null);
             } else if (myRecipe) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId());
+                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId(), null);
             } else if (!search.isEmpty()) {
-                adapter = new CustomAdapter(getActivity(), "SearchTitle", search);
+                adapter = new CustomAdapter(getActivity(), "SearchTitle", search, null);
             }else {
-                adapter = new CustomAdapter(getActivity(), "Recipes", "");
+                adapter = new CustomAdapter(getActivity(), "Recipes", "", null);
             }
             listView.setAdapter(adapter);
         }

@@ -65,6 +65,12 @@ public class SearchIngredientFragment extends Fragment {
                             ingredients.add(addIngredient);
                         }
                         listView.setAdapter(arrayAdapter);
+                        if(ingredients.size() == 0)
+                        {
+                            TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
+                            tvEmpty.setText("The ingredients based on the chosen category will be here.");
+                            listView.setEmptyView(tvEmpty);
+                        }
                     }
                 }
             });

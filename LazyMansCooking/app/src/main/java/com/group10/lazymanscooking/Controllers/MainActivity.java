@@ -215,8 +215,7 @@ public class MainActivity extends AppCompatActivity
 
         // Create new transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.pager, newFragment);
-        transaction.addToBackStack(null);
+        transaction.replace(R.id.pager, newFragment).addToBackStack("Back");
         transaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
