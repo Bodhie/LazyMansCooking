@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
@@ -15,11 +17,18 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 
 	public ArrayList<Recipe> recipes = new ArrayList<>();
+<<<<<<< HEAD
 	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
+=======
+	public ArrayList<Integer> ratings = new ArrayList<>();
+
+	public CustomAdapter(Context context, final String clause, final String value) {
+>>>>>>> ad38286e7345f5db56361bcd06fbd25b240fbc21
 		// Use the QueryFactory to construct a PQA that will only show
 		// Todos marked as high-pri
 		super(context, new QueryFactory<ParseObject>() {
@@ -83,6 +92,25 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 		timestampView.setText(object.getCreatedAt().toString());
 
 		//add rating
+		final TextView ratingView = (TextView) v.findViewById(R.id.rating);
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("RecipeRating");
+		query.whereEqualTo("recipeId", object.getObjectId());
+		query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
+			public void done(List<ParseObject> objects, ParseException e) {
+				if (objects != null) {
+					if (objects.size() > 0) {
+						int total = 0;
+						System.out.println("Aantal ratings = " + objects.size());
+						for (ParseObject rating : objects) {
+							total += rating.getInt("rating");
+						}
+						Double gemRating = (double) total / objects.size();
+						ratingView.setText(String.valueOf(gemRating));
+					}
+				}
+			}
+		});
 
 		//Fill arraylist
 		Recipe recipe = new Recipe(object.getObjectId(), object.getString("title"),object.getString("description"));
