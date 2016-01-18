@@ -61,4 +61,7 @@
     <string name="parse_app_id">PuPGePBSCLlAsCqISYYavaMilT8kjxeTSKVkdL6H</string>
     <string name="parse_client_id">7UFaGvJYlQrRdQA9LQN0g8kPWt8WcCaAPuw3HrAy</string>
     <string name="facebook_app_id">1658056894457055</string>
+
+    <!-- add id -->
+    <string name="banner_ad_unit_id">ca-app-pub-3588637505492394/5653121068</string>
 </resources>

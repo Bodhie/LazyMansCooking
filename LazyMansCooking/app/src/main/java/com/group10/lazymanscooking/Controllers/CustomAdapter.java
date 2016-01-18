@@ -97,7 +97,6 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 				if (objects != null) {
 					if (objects.size() > 0) {
 						int total = 0;
-						System.out.println("Aantal ratings = " + objects.size());
 						for (ParseObject rating : objects) {
 							total += rating.getInt("rating");
 						}

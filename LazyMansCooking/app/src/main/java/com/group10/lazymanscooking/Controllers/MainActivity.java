@@ -23,6 +23,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.group10.lazymanscooking.R;
 import com.parse.ParseUser;
 
@@ -50,6 +53,14 @@ public class MainActivity extends AppCompatActivity
         setStartFragment();
         setSearchbarKeyListener();
         setShakeDetector();
+        createAd();
+    }
+    public void createAd()
+    {
+        //Google addview
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
     public void setSearchbarKeyListener()
     {
