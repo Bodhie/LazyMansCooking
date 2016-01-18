@@ -22,13 +22,9 @@ import java.util.List;
 public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 
 	public ArrayList<Recipe> recipes = new ArrayList<>();
-<<<<<<< HEAD
-	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
-=======
 	public ArrayList<Integer> ratings = new ArrayList<>();
 
-	public CustomAdapter(Context context, final String clause, final String value) {
->>>>>>> ad38286e7345f5db56361bcd06fbd25b240fbc21
+	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
 		// Use the QueryFactory to construct a PQA that will only show
 		// Todos marked as high-pri
 		super(context, new QueryFactory<ParseObject>() {
