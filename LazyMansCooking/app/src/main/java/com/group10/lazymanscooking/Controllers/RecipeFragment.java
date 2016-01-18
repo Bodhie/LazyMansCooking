@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class RecipeFragment extends Fragment {
     List<Ingredient> ingredients;
     ListView listView;
     Button addFavorite;
+    private RatingBar ratingBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -160,7 +162,41 @@ public class RecipeFragment extends Fragment {
             }
         });
 
+        //Rating system
+        ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBar);
+
+        //Check if user allready rated
+        ParseQuery<ParseObject> queryRating = ParseQuery.getQuery("RecipeRating");
+        queryRating.whereEqualTo("userId", currentUser.getObjectId());
+        queryRating.whereEqualTo("recipeId", recipe.getObjectId());
+        queryRating.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(final ParseObject object, final ParseException e) {
+                if (object != null) {
+                    System.out.println("Set rating");
+                    String yourCurrentRating = String.valueOf(object.getInt("rating"));
+                    ratingBar.setRating(Float.parseFloat(yourCurrentRating));
+                }
+                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        int ratings = Integer.valueOf((int) rating);
+                        System.out.println(ratings);
+                        if (e == null) {
+                            System.out.println("Update");
+                            ParseObject currentRating = object;
+                            currentRating.put("rating", ratings);
+                            currentRating.saveInBackground();
+                        } else {
+                            System.out.println("Create");
+                            ParseObject insertRating = new ParseObject("RecipeRating");
+                            insertRating.put("userId", currentUser.getObjectId());
+                            insertRating.put("recipeId", recipe.getObjectId());
+                            insertRating.put("rating", ratings);
+                            insertRating.saveInBackground();
+                        }
+                    }
+                });
+            }
+        });
         return rootView;
     }
-
 }

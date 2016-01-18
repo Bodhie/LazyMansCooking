@@ -48,6 +48,14 @@
             android:textColor="#636363"
             android:layout_below="@+id/tvRecipeDescription"/>
 
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ratingBar"
+            android:layout_below="@+id/listViewIngredients"
+            android:numStars="5"
+            android:stepSize="1.0" />
+
         <Button
             android:id="@+id/btnFavorite"
             android:text="@string/add_to_Favorites"
@@ -56,7 +64,7 @@
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="15dp"
-            android:layout_below="@+id/listViewIngredients"
+            android:layout_below="@+id/ratingBar"
             android:background="#510000"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
