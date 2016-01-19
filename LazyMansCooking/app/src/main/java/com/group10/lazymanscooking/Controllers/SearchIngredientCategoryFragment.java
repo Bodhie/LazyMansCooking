@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.IngredientCategory;
-import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;

@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 
 public class CustomLocationListener extends Service implements LocationListener{
-
+    /*
+     * A part of the class is from a tutorial on the internet.
+     * This class is used to retrieve the location of the device.
+     */
     private final Context context;
 
     boolean isGPSEnabled = false;

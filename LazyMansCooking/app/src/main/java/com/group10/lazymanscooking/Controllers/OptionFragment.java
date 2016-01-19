@@ -26,9 +26,11 @@ public class OptionFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_option, container, false);
 
+        // Add a listener to the button to handle it by this class
         Button b = (Button) rootView.findViewById(R.id.btnSave);
         b.setOnClickListener(this);
 
+        // Get the prefs of the current user
         SharedPreferences prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
         Boolean restoredPref = prefs.getBoolean("recipeLocal", false);
         if (restoredPref != null)
@@ -43,6 +45,7 @@ public class OptionFragment extends Fragment implements View.OnClickListener {
     }
 
     public void saveOption(View v) {
+        // Set the prefs of the current user.
         CheckBox radioLocal = (CheckBox) rootView.findViewById(R.id.radioLocal);
         SharedPreferences.Editor editor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
         editor.putBoolean("recipeLocal", radioLocal.isChecked());

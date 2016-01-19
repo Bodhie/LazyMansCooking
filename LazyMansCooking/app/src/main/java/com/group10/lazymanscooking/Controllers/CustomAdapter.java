@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.group10.lazymanscooking.Models.Ingredient;
-import com.group10.lazymanscooking.Models.Recipe;
 import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -25,8 +23,7 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 	public ArrayList<Integer> ratings = new ArrayList<>();
 
 	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
-		// Use the QueryFactory to construct a PQA that will only show
-		// Todos marked as high-pri
+		//Create select query
 		super(context, new QueryFactory<ParseObject>() {
 			public ParseQuery create() {
 				ParseQuery<ParseObject> query;
@@ -62,16 +59,17 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 		});
 	}
 
-	// Customize the layout by overriding getItemView
+	// Customize the layout of listview_item
 	@Override
 	public View getItemView(ParseObject object, View v, ViewGroup parent) {
+		//Get the rootView
 		if (v == null) {
 			v = View.inflate(getContext(), R.layout.listview_item, null);
 		}
 
 		super.getItemView(object, v, parent);
 
-		// Add and download the image
+		// Add the image
 		ParseImageView todoImage = (ParseImageView) v.findViewById(R.id.icon);
 		ParseFile imageFile = object.getParseFile("image");
 		if (imageFile != null) {
@@ -79,15 +77,15 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 			todoImage.loadInBackground();
 		}
 
-		// Add the title view
+		// Add the title
 		TextView titleTextView = (TextView) v.findViewById(R.id.text1);
 		titleTextView.setText(object.getString("title"));
 
-		// Add a reminder of how long this item has been outstanding
+		// Add the created time of the recipe
 		TextView timestampView = (TextView) v.findViewById(R.id.timestamp);
 		timestampView.setText(object.getCreatedAt().toString());
 
-		//add rating
+		// Add the rating
 		final RatingBar ratingView = (RatingBar) v.findViewById(R.id.rating);
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("RecipeRating");
 		query.whereEqualTo("recipeId", object.getObjectId());

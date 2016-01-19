@@ -3,13 +3,9 @@ package com.group10.lazymanscooking.Controllers;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.R;
@@ -104,7 +99,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uri);
-                // Log.d(TAG, String.valueOf(bitmap));
 
                 ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
                 imageView.setImageBitmap(bitmap);
@@ -115,11 +109,12 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
     }
 
     public void addRecipe(View v){
-        //Insert into recipe
+        //Get value of textboxes
         EditText viewTitle = (EditText) rootView.findViewById(R.id.txtTitle);
         String title = viewTitle.getText().toString();
         EditText viewDescription = (EditText) rootView.findViewById(R.id.txtDescription);
         String description = viewDescription.getText().toString();
+        //Get image out of image box
         ImageView viewImage = (ImageView) rootView.findViewById(R.id.imageView);
         Bitmap bitmap = ((BitmapDrawable) viewImage.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -127,8 +122,10 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         getCurrentLocation();
         byte[] image = stream.toByteArray();
         ParseFile file = new ParseFile("image.png", image);
+        //Get current user
         ParseUser currentUser = ParseUser.getCurrentUser();
 
+        //Insert recipe
         final ParseObject recipe = new ParseObject("Recipe");
         recipe.put("title", title);
         recipe.put("description", description);
@@ -136,7 +133,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         recipe.put("latitude",currentLatitude);
         recipe.put("longitude",currentLongitude);
         recipe.put("creatorId", currentUser.getObjectId());
-        //Add ingredients to recipe
         recipe.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -145,6 +141,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                     String objectId = recipe.getObjectId();
                     System.out.println(objectId);
 
+                    //Add ingredients to recipe
                     ListView viewIngredients = (ListView) rootView.findViewById(R.id.listViewIngredients);
                     SparseBooleanArray checkedItems = viewIngredients.getCheckedItemPositions();
                     if (checkedItems != null) {
@@ -166,7 +163,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
             }
         });
 
-
         //Change fragment
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -174,8 +170,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-    public void getCurrentLocation()
-    {
+
+    public void getCurrentLocation() {
         CustomLocationListener gps = new CustomLocationListener(getActivity());
 
         if(gps.canGetLocation())
@@ -184,6 +180,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
             currentLongitude = String.valueOf(gps.getLongitude());
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

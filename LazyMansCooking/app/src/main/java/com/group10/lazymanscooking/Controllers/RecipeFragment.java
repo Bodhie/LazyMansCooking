@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookDialog;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareDialog;
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.parse.FindCallback;
@@ -54,6 +50,8 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rootView = inflater.inflate(R.layout.activity_recipe, container, false);
+
+        // Get items fromthe view
         TextView tvRecipeTitle = (TextView)rootView.findViewById(R.id.tvRecipeTitle);
         TextView tvRecipeDescription= (TextView)rootView.findViewById(R.id.tvRecipeDescription);
         final ImageView ivRecipe = (ImageView) rootView.findViewById(R.id.image_header);
@@ -61,12 +59,15 @@ public class RecipeFragment extends Fragment {
         showLocation = (Button) rootView.findViewById(R.id.btnMaps);
         shareFacebook = (Button) rootView.findViewById(R.id.btnShare);
 
+        // Check the bundles exists
         Bundle data = getArguments();
         if(data != null) {
+            // Get the recipe details
             recipe = (Recipe) data.getSerializable("recipe");
             tvRecipeTitle.setText(recipe.getTitle());
             tvRecipeDescription.setText(recipe.getDescription());
 
+            // Create parse query the the selected recipe
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Recipe");
             query.whereEqualTo("objectId", recipe.getObjectId());
             query.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -76,32 +77,22 @@ public class RecipeFragment extends Fragment {
                     longi =  object.getString("longitude");
                     if (object != null) {
                         try {
-
-
                             ParseFile file = (ParseFile) object.get("image");
                             file.getDataInBackground(new GetDataCallback() {
-
-
                                 public void done(byte[] data, ParseException e) {
                                     if (e == null) {
-
                                         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                                        //use this bitmap as you want
-                                        //Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
                                         ivRecipe.setImageBitmap(bitmap);
-
                                     } else {
-                                        // something went wrong
-                                        //Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
                         }catch (Exception ex) {
                             ex.printStackTrace();
                         }
-
                     } else {
-                      //  Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "No recipes found.", Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -132,17 +123,13 @@ public class RecipeFragment extends Fragment {
         });
 
         final ParseUser currentUser = ParseUser.getCurrentUser();
-
-
-
         ParseQuery<ParseObject> query1 = new ParseQuery<ParseObject>("Favorite");
         query1.whereEqualTo("user_id", currentUser.getObjectId());
         query1.whereEqualTo("recipe_id", recipe.getObjectId());
-
         query1.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(final ParseObject object, ParseException e) {
                 if (e == null) {
-                    //object exists
+                    // object exists
                     addFavorite.setText("Remove from Favorites");
                     Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
                     addFavorite.setOnClickListener(new View.OnClickListener() {
@@ -152,11 +139,9 @@ public class RecipeFragment extends Fragment {
                             addFavorite.setText("Removed from Favorites");
                         }
                     });
-
-
                 } else {
                     if (e.getCode() == ParseException.OBJECT_NOT_FOUND) {
-                        //object doesn't exist
+                        // object doesn't exist
                         addFavorite.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -168,8 +153,6 @@ public class RecipeFragment extends Fragment {
                                 addFavorite.setText("Added to Favorites");
                             }
                         });
-
-
                     } else {
                         //unknown error, debug
                         Toast.makeText(getActivity(), "Errore", Toast.LENGTH_LONG).show();
@@ -178,10 +161,10 @@ public class RecipeFragment extends Fragment {
             }
         });
 
-        //Rating system
+        // Rating system
         ratingBar = (RatingBar) rootView.findViewById(R.id.ratingBar);
 
-        //Check if user allready rated
+        // Check if user already rated
         ParseQuery<ParseObject> queryRating = ParseQuery.getQuery("RecipeRating");
         queryRating.whereEqualTo("userId", currentUser.getObjectId());
         queryRating.whereEqualTo("recipeId", recipe.getObjectId());
@@ -213,7 +196,6 @@ public class RecipeFragment extends Fragment {
                 });
             }
         });
-
         Location();
         Facebookshare();
         return rootView;
@@ -241,6 +223,5 @@ public class RecipeFragment extends Fragment {
                 startActivity(Intent.createChooser(intent, "Share with"));
             }
         });
-
     }
 }
