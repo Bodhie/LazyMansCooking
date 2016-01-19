@@ -22,20 +22,37 @@
             android:gravity="center_horizontal">
 
             <TextView
+                android:id="@+id/viewLogin"
+                android:text="@string/auto_login"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.5"/>
+            <CheckBox
+                android:id="@+id/radioLogin"
+                android:layout_weight="0.2"/>
+            <TextView
+                android:text="@string/yesno"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.2"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal">
+
+            <TextView
                 android:id="@+id/viewLocal"
                 android:text="@string/save_my_recipe_local"
                 android:layout_width="wrap_content"
-                android:layout_weight="0.3"/>
+                android:layout_weight="0.5"/>
             <CheckBox
                 android:id="@+id/radioLocal"
-                android:inputType="textPersonName"
-                android:layout_weight="0.3"/>
+                android:layout_weight="0.2"/>
             <TextView
-                android:id="@+id/viewYes"
                 android:text="@string/yesno"
                 android:layout_width="wrap_content"
-                android:layout_weight="0.3"/>
+                android:layout_weight="0.2"/>
         </TableRow>
+
 
 
         <Button

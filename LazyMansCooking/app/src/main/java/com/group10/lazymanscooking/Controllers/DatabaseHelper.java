@@ -14,6 +14,7 @@ public class DatabaseHelper extends Application {
     public void onCreate() {
         super.onCreate();
         // Inistialize the parse database
+        Parse.enableLocalDatastore(this);
         Parse.initialize(this, getString(R.string.parse_app_id), getString(R.string.parse_client_id));
         // Initialize the facebook plugin
         ParseFacebookUtils.initialize(this);

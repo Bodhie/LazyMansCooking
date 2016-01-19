@@ -139,17 +139,13 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                 if (e == null) {
                     //saved successfully
                     String objectId = recipe.getObjectId();
-                    System.out.println(objectId);
-
                     //Add ingredients to recipe
                     ListView viewIngredients = (ListView) rootView.findViewById(R.id.listViewIngredients);
                     SparseBooleanArray checkedItems = viewIngredients.getCheckedItemPositions();
                     if (checkedItems != null) {
-                        for (int i=0; i<checkedItems.size(); i++) {
+                        for (int i = 0; i < checkedItems.size(); i++) {
                             if (checkedItems.valueAt(i)) {
                                 Ingredient ingredient = (Ingredient) viewIngredients.getAdapter().getItem(checkedItems.keyAt(i));
-                                //Ingredient ingredient = new Ingredient(item.getObjectId(), item.getString("name"));
-                                System.out.println(ingredient + "was selected");
                                 final ParseObject ingredientInsert = new ParseObject("RecipeIngredient");
                                 ingredientInsert.put("recipeId", objectId);
                                 ingredientInsert.put("ingredientId", ingredient.getobjectId());

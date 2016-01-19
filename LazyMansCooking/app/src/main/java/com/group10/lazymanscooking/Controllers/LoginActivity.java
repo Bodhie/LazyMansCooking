@@ -1,10 +1,13 @@
 package com.group10.lazymanscooking.Controllers;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
     ParseUser currentUser;
     private LoginButton loginButton;
+    public static final String PREFS_NAME = "MyOptions";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +39,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Allow users that allready has been logged in to directly open the mainscreen
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        // Get the prefs of the current user
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if(prefs.getBoolean("autoLogin", false)){
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                System.out.println("CurrentUser");
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        } else {
+            // Stay on this page.
         }
 
         // Facebook login

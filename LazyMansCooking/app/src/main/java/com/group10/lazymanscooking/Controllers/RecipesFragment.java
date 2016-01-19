@@ -1,6 +1,8 @@
 package com.group10.lazymanscooking.Controllers;
 
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,7 +36,7 @@ public class RecipesFragment extends Fragment {
 
         Bundle args = this.getArguments();
         if(args == null) {
-            CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "", null);
+            CustomAdapter adapter = new CustomAdapter(getActivity(), "Recipes", "", null, false);
             listView.setAdapter(adapter);
         }
         else if (args.getSerializable("ingredientlist") != null) {
@@ -45,7 +47,7 @@ public class RecipesFragment extends Fragment {
                 ingredientsId.add(ingredient.getobjectId());
             }
             //TODO create query to search the database for recipes according to the available ingredients.
-            adapter = new CustomAdapter(getActivity(), "advancedSearch", "", ingredientsId);
+            adapter = new CustomAdapter(getActivity(), "advancedSearch", "", ingredientsId, false);
             listView.setAdapter(adapter);
         }
         else
@@ -55,14 +57,15 @@ public class RecipesFragment extends Fragment {
             Boolean myRecipe = args.getBoolean("myRecipe", false);
             if (favorite) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId(), null);
+                adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId(), null, false);
             } else if (myRecipe) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId(), null);
+                SharedPreferences prefs = getActivity().getSharedPreferences("MyOptions", Context.MODE_PRIVATE);
+                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId(), null, prefs.getBoolean("recipeLocal", false));
             } else if (!search.isEmpty()) {
-                adapter = new CustomAdapter(getActivity(), "SearchTitle", search, null);
+                adapter = new CustomAdapter(getActivity(), "SearchTitle", search, null, false);
             }else {
-                adapter = new CustomAdapter(getActivity(), "Recipes", "", null);
+                adapter = new CustomAdapter(getActivity(), "Recipes", "", null, false);
             }
             listView.setAdapter(adapter);
         }

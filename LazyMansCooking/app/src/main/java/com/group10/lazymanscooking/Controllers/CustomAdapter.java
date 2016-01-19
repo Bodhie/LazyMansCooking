@@ -1,6 +1,7 @@
 package com.group10.lazymanscooking.Controllers;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
@@ -22,7 +23,7 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 
 	public ArrayList<Integer> ratings = new ArrayList<>();
 
-	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
+	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array, final boolean Local) {
 		//Create select query
 		super(context, new QueryFactory<ParseObject>() {
 			public ParseQuery create() {
@@ -47,7 +48,11 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 					query.whereDoesNotMatchKeyInQuery("objectId", "recipeId", notIngredientRecipe);
 				} else if(clause.equals("myRecipe")){
 					query = ParseQuery.getQuery("Recipe");
-					query.whereEqualTo("creatorId", value);
+					//query.whereEqualTo("creatorId", value);
+					if(Local){
+						System.out.println("LOCAL!");
+						query.fromLocalDatastore();
+					}
 				} else if(clause.equals("SearchTitle")){
 					query = ParseQuery.getQuery("Recipe");
 					query.whereMatches("title", "(" + value + ")", "i");
