@@ -20,13 +20,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-<<<<<<< HEAD
 import android.widget.TextView;
 import android.widget.Toast;
-=======
->>>>>>> 3450947ee77dc58e0a1213e646c1ca1c3bc00d29
-
-import com.facebook.FacebookRequestError;
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.IngredientCategory;
 import com.group10.lazymanscooking.R;
