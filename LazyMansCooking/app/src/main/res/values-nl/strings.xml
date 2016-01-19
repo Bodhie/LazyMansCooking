@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Lazy mans cooking</string>
     <string name="logout">Log uit</string>
+    <string name="DialogMessage">Weet u zeker dat u wilt uitloggen?</string>
     <string name="search">Zoeken</string>
     <string name="action_settings">Opties</string>
     <string name="navigation_drawer_open">Open navigatie</string>
     <string name="navigation_drawer_close">Sluit navigatie</string>
 
     <string name="title_activity_recipe_fragment">Test</string>
-
     <string name="strTitle">Titel</string>
     <string name="strDescription">Beschrijving</string>
 
@@ -24,7 +24,6 @@
     <string name="username">Gebruikersnaam</string>
     <string name="password">Wachtwoord</string>
     <string name="anonymous_users">Doorgaan zonder in te loggen</string>
-
 
     <!-- add Register -->
     <string name="register">Registreer</string>
@@ -45,6 +44,7 @@
     <string name = "add_options">Opties</string>
     <string name = "save_my_recipe_local">Save mijn recepten lokaal</string>
     <string name = "yesno">Ja</string>
+    <string name = "auto_login">Automatisch inloggen</string>
     <string name = "save">Opslaan</string>
 
     <!-- parse ids -->

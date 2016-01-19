@@ -1,9 +1,11 @@
 package com.group10.lazymanscooking.Controllers;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -23,14 +25,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.group10.lazymanscooking.R;
 import com.parse.ParseUser;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Shake detectors
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private ShakeDetector mShakeDetector;
@@ -41,12 +43,12 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Menu listeners
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -55,16 +57,16 @@ public class MainActivity extends AppCompatActivity
         setShakeDetector();
         createAd();
     }
-    public void createAd()
-    {
+
+    public void createAd() {
         //Google addview
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }
-    public void setSearchbarKeyListener()
-    {
-        //Enter handler
+
+    public void setSearchbarKeyListener() {
+        // Enter handler for search of recipe title
         final EditText edittext = (EditText) findViewById(R.id.txtSearch);
         edittext.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -84,8 +86,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
-    public void setShakeDetector()
-    {
+
+    public void setShakeDetector() {
+        // On shaking
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mAccelerometer = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -94,12 +97,6 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onShake(int count) {
-				/*
-				 * The following method, "handleShakeEvent(count):" is a stub //
-				 * method you would use to setup whatever you want done once the
-				 * device has been shook.
-				 */
-                //handleShakeEvent(count);
                 TextView search = (TextView) findViewById(R.id.txtSearch);
                 String input = search.getText().toString();
                 if(!input.isEmpty()) {
@@ -115,37 +112,40 @@ public class MainActivity extends AppCompatActivity
     public void setStartFragment()
     {
         //Set start page
-        // get an instance of FragmentTransaction from your Activity
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        //add a fragment
         RecipesFragment myFragment = new RecipesFragment();
         fragmentTransaction.add(R.id.pager, myFragment);
         fragmentTransaction.commit();
     }
+
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(R.string.logout)
+                .setMessage(R.string.DialogMessage)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle the selected item action bar
         int id = item.getItemId();
         Fragment newFragment = new RecipesFragment();
         
@@ -174,10 +174,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void SearchFunction(){
+        // Retrieve the inserted titel
         TextView search = (TextView) findViewById(R.id.txtSearch);
         String ssearch = search.getText().toString();
-        System.out.println(ssearch);
+
         RecipesFragment f = new RecipesFragment();
+        // Add params to new Fragment
         Bundle args = new Bundle();
         args.putString("search", ssearch);
         f.setArguments(args);
@@ -188,14 +190,12 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.pager, f);
         transaction.addToBackStack(null);
         transaction.commit();
-
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        // Handle navigation view items.
         int id = item.getItemId();
         Fragment newFragment = new RecipesFragment();
 
@@ -205,14 +205,14 @@ public class MainActivity extends AppCompatActivity
             newFragment = new addRecipeFragment();
         } else if (id == R.id.nav_favorite_recipe) {
             RecipesFragment f = new RecipesFragment();
-            // Supply index input as an argument.
+            // Add params to new Fragment
             Bundle args = new Bundle();
             args.putBoolean("favorite" ,true);
             f.setArguments(args);
             newFragment = f;
         }  else if (id == R.id.nav_my_recipe) {
             RecipesFragment f = new RecipesFragment();
-            // Supply index input as an argument.
+            // Add params to new Fragment
             Bundle args = new Bundle();
             args.putBoolean("myRecipe" ,true);
             f.setArguments(args);
@@ -229,6 +229,7 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.pager, newFragment).addToBackStack("Back");
         transaction.commit();
 
+        // Close slide menu
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 

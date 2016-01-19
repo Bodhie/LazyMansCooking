@@ -1,10 +1,13 @@
 package com.group10.lazymanscooking.Controllers;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
     ParseUser currentUser;
     private LoginButton loginButton;
+    public static final String PREFS_NAME = "MyOptions";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +38,20 @@ public class LoginActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        // Allow users that allready has been logged in to directly open the mainscreen
+        // Get the prefs of the current user
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if(prefs.getBoolean("autoLogin", false)){
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                System.out.println("CurrentUser");
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
         } else {
-            //Niks
+            // Stay on this page.
         }
 
-
+        // Facebook login
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
         final List<String> permissions = Arrays.asList("public_profile", "email");
@@ -106,11 +116,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View v){
+        // Retrieve username and password from the user
         EditText viewUsername = (EditText) findViewById(R.id.txtUsername);
         String username = viewUsername.getText().toString();
         EditText viewPassword = (EditText) findViewById(R.id.txtPassword);
         String password = viewPassword.getText().toString();
 
+        // Check if username and password exists in the database
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
@@ -128,11 +140,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void register(View v){
+        // Open the register page.
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
     public void anonymous(View v){
+        // Create a user without username, password and email
         ParseAnonymousUtils.logIn(new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException e) {
