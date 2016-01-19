@@ -22,7 +22,6 @@ import java.util.List;
 
 public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 
-	public ArrayList<Recipe> recipes = new ArrayList<>();
 	public ArrayList<Integer> ratings = new ArrayList<>();
 
 	public CustomAdapter(Context context, final String clause, final String value, final ArrayList<String> array) {
@@ -103,14 +102,12 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 						}
 						String gemRating = String.valueOf(total / objects.size());
 						ratingView.setRating(Float.parseFloat(gemRating));
+					} else {
+						ratingView.setRating(Float.parseFloat("0.0"));
 					}
 				}
 			}
 		});
-
-		//Fill arraylist
-		Recipe recipe = new Recipe(object.getObjectId(), object.getString("title"),object.getString("description"));
-		recipes.add(recipe);
 
 		return v;
 	}

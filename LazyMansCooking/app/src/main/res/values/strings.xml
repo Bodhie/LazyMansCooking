@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lazy mans cooking</string>
     <string name="logout">Logout</string>
+    <string name="DialogMessage">Are you sure you want to sign out?</string>
     <string name="action_settings">Settings</string>
     <string name="search">Search</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

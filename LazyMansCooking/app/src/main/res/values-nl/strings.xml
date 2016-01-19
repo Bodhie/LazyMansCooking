@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lazy mans cooking</string>
     <string name="logout">Log uit</string>
+    <string name="DialogMessage">Weet u zeker dat u wilt uitloggen?</string>
     <string name="search">Zoeken</string>
     <string name="action_settings">Opties</string>
     <string name="navigation_drawer_open">Open navigatie</string>
