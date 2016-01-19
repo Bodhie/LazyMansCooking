@@ -189,52 +189,63 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         EditText viewTitle = (EditText) rootView.findViewById(R.id.txtTitle);
         String title = viewTitle.getText().toString();
         EditText viewDescription = (EditText) rootView.findViewById(R.id.txtDescription);
-        String description = viewDescription.getText().toString();
+            String description = viewDescription.getText().toString();
         //Get image out of image box
         ImageView viewImage = (ImageView) rootView.findViewById(R.id.imageView);
-        Bitmap bitmap = ((BitmapDrawable) viewImage.getDrawable()).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        getCurrentLocation();
-        byte[] image = stream.toByteArray();
-        ParseFile file = new ParseFile("image.png", image);
-        //Get current user
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        if(title.equals(""))
+        {
+            Toast.makeText(getActivity(),"the title is empty",Toast.LENGTH_LONG).show();
+        }
+        else if (description.equals(""))
+        {
+            Toast.makeText(getActivity(),"the description is empty",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Bitmap bitmap = ((BitmapDrawable) viewImage.getDrawable()).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            getCurrentLocation();
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("image.png", image);
+            //Get current user
+            ParseUser currentUser = ParseUser.getCurrentUser();
 
-        //Insert recipe
-        final ParseObject recipe = new ParseObject("Recipe");
-        recipe.put("title", title);
-        recipe.put("description", description);
-        recipe.put("image", file);
-        recipe.put("latitude",currentLatitude);
-        recipe.put("longitude",currentLongitude);
-        recipe.put("creatorId", currentUser.getObjectId());
-        recipe.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    //saved successfully
-                    String objectId = recipe.getObjectId();
-                    //Add ingredients to recipe
-                    if (chosenIngredients.size() != 0) {
+            //Insert recipe
+            final ParseObject recipe = new ParseObject("Recipe");
+            recipe.put("title", title);
+            recipe.put("description", description);
+            recipe.put("image", file);
+            recipe.put("latitude", currentLatitude);
+            recipe.put("longitude", currentLongitude);
+            recipe.put("creatorId", currentUser.getObjectId());
+            recipe.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        //saved successfully
+                        String objectId = recipe.getObjectId();
+                        //Add ingredients to recipe
+                        if (chosenIngredients.size() != 0) {
                             for (Ingredient ingredient : chosenIngredients) {
                                 final ParseObject ingredientInsert = new ParseObject("RecipeIngredient");
                                 ingredientInsert.put("recipeId", objectId);
                                 ingredientInsert.put("ingredientId", ingredient.getobjectId());
                                 ingredientInsert.saveInBackground();
                             }
+                        }
                     }
+
                 }
+            });
 
-            }
-        });
-
-        //Change fragment
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.pager, new RecipesFragment());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+            //Change fragment
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.pager, new RecipesFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
     }
 
     public void getCurrentLocation() {

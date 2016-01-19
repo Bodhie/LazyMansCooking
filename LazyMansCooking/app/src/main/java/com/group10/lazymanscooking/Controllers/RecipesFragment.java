@@ -46,7 +46,6 @@ public class RecipesFragment extends Fragment {
             for(Ingredient ingredient : chosenIngredients){
                 ingredientsId.add(ingredient.getobjectId());
             }
-            //TODO create query to search the database for recipes according to the available ingredients.
             adapter = new CustomAdapter(getActivity(), "advancedSearch", "", ingredientsId, false);
             listView.setAdapter(adapter);
         }
