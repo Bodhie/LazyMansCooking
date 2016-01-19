@@ -41,7 +41,7 @@
 
     <!-- recipe detail page -->
     <string name ="add_to_Favorites">Add to Favorites</string>
-    <string name ="share_on_Facebook">Share on Facebook </string>
+    <string name ="share_on_Facebook">Share Recipe</string>
     <!-- search category page -->
     <string name = "search_ingredients">Chosen ingredients</string>
     <string name = "search_categories">Available ingredient categories</string>

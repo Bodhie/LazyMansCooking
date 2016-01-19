@@ -69,6 +69,18 @@
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:nestedScrollingEnabled="false" />
+        <Button
+            android:id="@+id/btnMaps"
+            android:text="Show where made"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/btnFavorite"
+            android:background="#005123"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:nestedScrollingEnabled="false" />
 
         <Button
             android:id="@+id/btnShare"
@@ -78,7 +90,7 @@
             android:layout_width="fill_parent"
             android:layout_height="60dp"
             android:layout_marginTop="0dp"
-            android:layout_below="@+id/btnFavorite"
+            android:layout_below="@+id/btnMaps"
             android:background="#005eb1"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"

@@ -1,7 +1,9 @@
 package com.group10.lazymanscooking;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -16,6 +18,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookDialog;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.parse.FindCallback;
@@ -39,6 +44,10 @@ public class RecipeFragment extends Fragment {
     List<Ingredient> ingredients;
     ListView listView;
     Button addFavorite;
+    Button showLocation;
+    Button shareFacebook;
+    String longi;
+    String lati;
     private RatingBar ratingBar;
 
     @Override
@@ -49,6 +58,8 @@ public class RecipeFragment extends Fragment {
         TextView tvRecipeDescription= (TextView)rootView.findViewById(R.id.tvRecipeDescription);
         final ImageView ivRecipe = (ImageView) rootView.findViewById(R.id.image_header);
         addFavorite = (Button) rootView.findViewById(R.id.btnFavorite);
+        showLocation = (Button) rootView.findViewById(R.id.btnMaps);
+        shareFacebook = (Button) rootView.findViewById(R.id.btnShare);
 
         Bundle data = getArguments();
         if(data != null) {
@@ -60,8 +71,13 @@ public class RecipeFragment extends Fragment {
             query.whereEqualTo("objectId", recipe.getObjectId());
             query.getFirstInBackground(new GetCallback<ParseObject>() {
                 public void done(ParseObject object, ParseException e) {
+
+                    lati =  object.getString("latitude");
+                    longi =  object.getString("longitude");
                     if (object != null) {
                         try {
+
+
                             ParseFile file = (ParseFile) object.get("image");
                             file.getDataInBackground(new GetDataCallback() {
 
@@ -71,12 +87,12 @@ public class RecipeFragment extends Fragment {
 
                                         Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
                                         //use this bitmap as you want
-                                        Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getActivity(), "something wight", Toast.LENGTH_LONG).show();
                                         ivRecipe.setImageBitmap(bitmap);
 
                                     } else {
                                         // something went wrong
-                                        Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
                                     }
                                 }
                             });
@@ -85,7 +101,7 @@ public class RecipeFragment extends Fragment {
                         }
 
                     } else {
-                        Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getActivity(), "something wong" + e.toString(), Toast.LENGTH_LONG).show();
 
                     }
                 }
@@ -197,6 +213,34 @@ public class RecipeFragment extends Fragment {
                 });
             }
         });
+
+        Location();
+        Facebookshare();
         return rootView;
+    }
+
+
+    public void Location(){
+        showLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?q=loc:" + lati + "," + longi));
+                startActivity(intent);
+            }
+        });
+    }
+
+    public void Facebookshare(){
+        shareFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, "Wonderful search engine http://www.google.fr/");
+                startActivity(Intent.createChooser(intent, "Share with"));
+            }
+        });
+
     }
 }
