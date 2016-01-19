@@ -3,9 +3,13 @@ package com.group10.lazymanscooking.Controllers;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.R;
@@ -42,6 +47,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
     View rootView;
     List<Ingredient> ingredients;
     ListView listView;
+    String currentLongitude;
+    String currentLatitude;
     private static final int SELECT_PHOTO = 1;
 
     @Override
@@ -84,7 +91,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                 startActivityForResult(photoPickerIntent, SELECT_PHOTO);
             }
         });
-
         return rootView;
     }
 
@@ -118,6 +124,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         Bitmap bitmap = ((BitmapDrawable) viewImage.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        getCurrentLocation();
         byte[] image = stream.toByteArray();
         ParseFile file = new ParseFile("image.png", image);
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -126,6 +133,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         recipe.put("title", title);
         recipe.put("description", description);
         recipe.put("image", file);
+        recipe.put("latitude",currentLatitude);
+        recipe.put("longitude",currentLongitude);
         recipe.put("creatorId", currentUser.getObjectId());
         //Add ingredients to recipe
         recipe.saveInBackground(new SaveCallback() {
@@ -165,7 +174,16 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+    public void getCurrentLocation()
+    {
+        CustomLocationListener gps = new CustomLocationListener(getActivity());
 
+        if(gps.canGetLocation())
+        {
+            currentLatitude = String.valueOf(gps.getLatitude());
+            currentLongitude = String.valueOf(gps.getLongitude());
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
