@@ -26,11 +26,12 @@
         android:layout_below="@+id/text1"
         android:layout_toRightOf="@id/icon" />
 
-    <TextView
+    <RatingBar
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/timestamp"
-        android:layout_toRightOf="@id/icon" />
+        android:layout_toRightOf="@id/icon"
+        android:isIndicator="true"/>
 
 </RelativeLayout>

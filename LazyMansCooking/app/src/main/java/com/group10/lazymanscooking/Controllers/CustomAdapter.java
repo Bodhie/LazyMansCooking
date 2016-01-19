@@ -3,6 +3,7 @@ package com.group10.lazymanscooking.Controllers;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.group10.lazymanscooking.Models.Ingredient;
@@ -88,7 +89,7 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 		timestampView.setText(object.getCreatedAt().toString());
 
 		//add rating
-		final TextView ratingView = (TextView) v.findViewById(R.id.rating);
+		final RatingBar ratingView = (RatingBar) v.findViewById(R.id.rating);
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("RecipeRating");
 		query.whereEqualTo("recipeId", object.getObjectId());
 		query.findInBackground(new FindCallback<ParseObject>() {
@@ -100,8 +101,8 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 						for (ParseObject rating : objects) {
 							total += rating.getInt("rating");
 						}
-						Double gemRating = (double) total / objects.size();
-						ratingView.setText(String.valueOf(gemRating));
+						String gemRating = String.valueOf(total / objects.size());
+						ratingView.setRating(Float.parseFloat(gemRating));
 					}
 				}
 			}
