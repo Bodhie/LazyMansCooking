@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Fragment;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ import java.util.List;
  */
 public class addRecipeFragment extends Fragment implements View.OnClickListener {
     View rootView;
-    ArrayList<Ingredient> availableIngredients;
     IngredientCategory chosenCategory;
     ArrayList<Ingredient> chosenIngredients = new ArrayList<>();
     ListView listViewChosenIngredients;
@@ -218,20 +216,14 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                     //saved successfully
                     String objectId = recipe.getObjectId();
                     //Add ingredients to recipe
-                    ListView viewIngredients = (ListView) rootView.findViewById(R.id.listViewIngredients);
-                    SparseBooleanArray checkedItems = viewIngredients.getCheckedItemPositions();
-                    if (checkedItems != null) {
-                        for (int i = 0; i < checkedItems.size(); i++) {
-                            if (checkedItems.valueAt(i)) {
-                                Ingredient ingredient = (Ingredient) viewIngredients.getAdapter().getItem(checkedItems.keyAt(i));
+                    if (chosenIngredients.size() != 0) {
+                            for (Ingredient ingredient : chosenIngredients) {
                                 final ParseObject ingredientInsert = new ParseObject("RecipeIngredient");
                                 ingredientInsert.put("recipeId", objectId);
                                 ingredientInsert.put("ingredientId", ingredient.getobjectId());
                                 ingredientInsert.saveInBackground();
                             }
-                        }
                     }
-                    final ParseObject ingredients = new ParseObject("Recipe");
                 }
 
             }
