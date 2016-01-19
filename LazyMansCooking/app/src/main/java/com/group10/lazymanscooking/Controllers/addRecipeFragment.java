@@ -18,14 +18,18 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookRequestError;
 import com.group10.lazymanscooking.Models.Ingredient;
+import com.group10.lazymanscooking.Models.IngredientCategory;
 import com.group10.lazymanscooking.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -45,8 +49,12 @@ import java.util.List;
  */
 public class addRecipeFragment extends Fragment implements View.OnClickListener {
     View rootView;
-    List<Ingredient> ingredients;
-    ListView listView;
+    ArrayList<Ingredient> availableIngredients;
+    IngredientCategory chosenCategory;
+    ArrayList<Ingredient> chosenIngredients = new ArrayList<>();
+    ListView listViewChosenIngredients;
+    ListView listViewOptions;
+    TextView tvEmpty;
     String currentLongitude;
     String currentLatitude;
     private static final int SELECT_PHOTO = 1;
@@ -58,28 +66,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
 
         Button b = (Button) rootView.findViewById(R.id.btnAddRecipe);
         b.setOnClickListener(this);
-
-        //Set ingredients
-        listView = (ListView) rootView.findViewById(R.id.listViewIngredients);
-        ingredients = new ArrayList<>();
-        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_multichoice, ingredients);
-
-        ParseQuery<ParseObject> query = new ParseQuery<>("Ingredient");
-        query.addAscendingOrder("name");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null) {
-                    for (ParseObject ingredient : objects) {
-                        Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
-                        ingredients.add(addIngredient);
-                    }
-                    listView.setAdapter(adapter);
-                }
-            }
-        });
-
+        setChosenIngredients();
+        setOptions();
         //Image setter
         Button pickImage = (Button) rootView.findViewById(R.id.btn_pick);
         pickImage.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +81,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         });
         return rootView;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -113,7 +100,99 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
             }
         }
     }
+    public void setChosenIngredients()
+    {
+        listViewChosenIngredients = (ListView) rootView.findViewById(R.id.listViewChosenIngredients);
+        final ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
+        listViewChosenIngredients.setAdapter(arrayAdapter);
+        tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
+        listViewChosenIngredients.setEmptyView(tvEmpty);
 
+    }
+    public void setOptions() {
+        //Set categories
+        String QueryInput;
+        final ArrayList<Ingredient> availableIngredients = new ArrayList<>();
+        final ArrayList<IngredientCategory> availableCategories = new ArrayList<>();
+        if(chosenCategory != null)
+        {
+            QueryInput = "Ingredient";
+        }
+        else
+        {
+            QueryInput = "IngredientCategory";
+        }
+        listViewOptions = (ListView) rootView.findViewById(R.id.listViewDisplayOptions);
+
+        final TextView tvEmptyOptions = (TextView) rootView.findViewById(R.id.search_emptyOptions);
+        final ArrayAdapter<Ingredient> arrayAdapterIngredients = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, availableIngredients);
+        final ArrayAdapter<IngredientCategory> arrayAdapterCategories = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, availableCategories);
+
+        ParseQuery<ParseObject> query = new ParseQuery<>(QueryInput);
+        query.addAscendingOrder("name");
+        if(chosenCategory != null)
+        {
+            query.whereEqualTo("IngredientCategory_id", chosenCategory.getobjectId());
+        }
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject output : objects) {
+                        if(chosenCategory != null)
+                        {
+                            System.out.println(chosenCategory.getTitle());
+                            Ingredient ingredient = new Ingredient(output.getObjectId(),output.getString("name"));
+                            availableIngredients.add(ingredient);
+                        }
+                        else {
+                            IngredientCategory category = new IngredientCategory(output.getObjectId(), output.getString("name"));
+                            availableCategories.add(category);
+                        }
+                    }
+                    if(chosenCategory != null)
+                    {
+                        listViewOptions.setAdapter(arrayAdapterIngredients);
+                    }
+                    else
+                    {
+                        listViewOptions.setAdapter(arrayAdapterCategories);
+                    }
+                    listViewOptions.setEmptyView(tvEmptyOptions);
+                }
+            }
+        });
+        listViewOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                boolean ingredientExists = false;
+                if(chosenCategory != null)
+                {
+                    Ingredient clickedIngredient = (Ingredient) parent.getItemAtPosition(position);
+                    for(Ingredient ingredient : chosenIngredients)
+                    {
+                        if(clickedIngredient.getobjectId().equals(ingredient.getobjectId())) {
+                            ingredientExists = true;
+                        }
+                    }
+                    if(ingredientExists)
+                    {
+                        Toast.makeText(getActivity(),"this ingredient is already added to the chosen ingredients",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        chosenIngredients.add(clickedIngredient);
+                    }
+                    setChosenIngredients();
+                    chosenCategory = null;
+                }
+                else
+                {
+                    chosenCategory = (IngredientCategory) parent.getItemAtPosition(position);
+                }
+                setOptions();
+            }
+        });
+    }
     public void addRecipe(View v){
         //Insert into recipe
         EditText viewTitle = (EditText) rootView.findViewById(R.id.txtTitle);

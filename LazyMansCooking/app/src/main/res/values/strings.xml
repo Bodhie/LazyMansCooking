@@ -38,6 +38,7 @@
     <string name="insert_description">Insert description</string>
     <string name="recipe_image">Image</string>
     <string name="add">Add</string>
+    <string name = "search_emptyOptions">No available options</string>
 
     <!-- recipe detail page -->
     <string name ="add_to_Favorites">Add to Favorites</string>
