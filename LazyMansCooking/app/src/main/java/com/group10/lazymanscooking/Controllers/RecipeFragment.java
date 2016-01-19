@@ -17,6 +17,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
 import com.group10.lazymanscooking.Models.Ingredient;
 import com.group10.lazymanscooking.Models.Recipe;
 import com.parse.FindCallback;
@@ -217,11 +220,14 @@ public class RecipeFragment extends Fragment {
         shareFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, "Wonderful search engine http://www.google.fr/");
-                startActivity(Intent.createChooser(intent, "Share with"));
+              Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "Now cooking: "+recipe.getTitle() +". Using Lazy Mans Cooking");
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             }
         });
     }
+
+
 }
