@@ -240,6 +240,7 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
             });
 
             //Change fragment
+            //Change fragment
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.pager, new RecipesFragment());
