@@ -103,10 +103,7 @@ public class RecipeFragment extends Fragment {
         }
 
         //Set ingredients
-        listView = (ListView) rootView.findViewById(R.id.listViewIngredients);
-        ingredients = new ArrayList<>();
-        final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<Ingredient>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
-
+        final TextView ingredientView = (TextView) rootView.findViewById(R.id.listViewIngredients);
         ParseQuery<ParseObject> recipeIngredient = ParseQuery.getQuery("RecipeIngredient");
         recipeIngredient.whereEqualTo("recipeId", recipe.getObjectId());
 
@@ -115,12 +112,17 @@ public class RecipeFragment extends Fragment {
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
+                StringBuilder builder = new StringBuilder();
+                builder.append("Ingredients : ");
                 if (e == null) {
                     for (ParseObject ingredient : objects) {
                         Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
-                        ingredients.add(addIngredient);
+                        if (builder.length() != 14) {
+                            builder.append(", ");
+                        }
+                        builder.append(addIngredient);
                     }
-                    listView.setAdapter(adapter);
+                    ingredientView.setText(builder.toString());
                 }
             }
         });

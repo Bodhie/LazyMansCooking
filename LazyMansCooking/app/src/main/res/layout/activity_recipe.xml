@@ -22,7 +22,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:layout_height="wrap_content"
-            android:text="Ik ben een recept"
+            android:text="Recipe name"
             android:textSize="30dp"
             android:layout_below="@+id/image_header"
             android:layout_alignLeft="@+id/image_header"
@@ -35,12 +35,12 @@
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:text="Ik ben een recept"
+            android:text="Recipe description"
             android:textSize="12dp"
             android:layout_below="@+id/tvRecipeTitle"
             android:textColor="#636363" />
 
-        <ListView
+        <TextView
             android:id="@+id/listViewIngredients"
             android:focusable="false"
             android:layout_height="wrap_content"

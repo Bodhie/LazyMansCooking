@@ -59,8 +59,12 @@ public class RecipesFragment extends Fragment {
                 adapter = new CustomAdapter(getActivity(), "favorite", currentUser.getObjectId(), null, false);
             } else if (myRecipe) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
-                SharedPreferences prefs = getActivity().getSharedPreferences("MyOptions", Context.MODE_PRIVATE);
-                adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId(), null, prefs.getBoolean("recipeLocal", false));
+                if(currentUser != null) {
+                    SharedPreferences prefs = getActivity().getSharedPreferences("MyOptions", Context.MODE_PRIVATE);
+                    adapter = new CustomAdapter(getActivity(), "myRecipe", currentUser.getObjectId(), null, prefs.getBoolean("recipeLocal", false));
+                } else {
+                    adapter = new CustomAdapter(getActivity(), "Recipes", "", null, false);
+                }
             } else if (!search.isEmpty()) {
                 adapter = new CustomAdapter(getActivity(), "SearchTitle", search, null, false);
             }else {
