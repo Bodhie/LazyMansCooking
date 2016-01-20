@@ -48,7 +48,7 @@
     <!-- search category page -->
     <string name = "search_ingredients">Chosen ingredients</string>
     <string name = "search_categories">Available ingredient categories</string>
-    <string name = "search_empty">Your chosen ingredients will be here!</string>
+    <string name = "search_empty">Your chosen ingredients\r\n will be here!</string>
     <string name = "search_button">Search</string>
 
     <!-- search category page -->
