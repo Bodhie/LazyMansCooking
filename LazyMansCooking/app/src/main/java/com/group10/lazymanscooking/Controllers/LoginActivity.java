@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         // Get the prefs of the current user
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         if(prefs.getBoolean("autoLogin", false)){
-            ParseUser currentUser = ParseUser.getCurrentUser();
+            currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
                 System.out.println("CurrentUser");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));

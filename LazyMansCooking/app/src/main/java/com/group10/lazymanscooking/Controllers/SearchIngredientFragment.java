@@ -42,6 +42,16 @@ public class SearchIngredientFragment extends Fragment {
         ingredients = new ArrayList<>();
         getData();
         if(data != null) {
+            initIngredients();
+        }
+        else
+        {
+            Toast.makeText(getActivity(),"This category has no ingredients",Toast.LENGTH_LONG).show();
+        }
+        return rootView;
+    }
+        private void initIngredients()
+        {
             category = (IngredientCategory) data.getSerializable("category");
             chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
             final ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
@@ -67,39 +77,36 @@ public class SearchIngredientFragment extends Fragment {
                     }
                 }
             });
-        }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Ingredient clickedIngredient = (Ingredient)parent.getItemAtPosition(position);
-                SearchIngredientCategoryFragment MainSearch = new SearchIngredientCategoryFragment();
-                Bundle args = new Bundle();
-                boolean ingredientExists = false;
-                for(Ingredient ingredient : chosenIngredients)
-                {
-                    if(clickedIngredient.getobjectId().equals(ingredient.getobjectId())) {
-                        ingredientExists = true;
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Ingredient clickedIngredient = (Ingredient)parent.getItemAtPosition(position);
+                    SearchIngredientCategoryFragment MainSearch = new SearchIngredientCategoryFragment();
+                    Bundle args = new Bundle();
+                    boolean ingredientExists = false;
+                    for(Ingredient ingredient : chosenIngredients)
+                    {
+                        if(clickedIngredient.getobjectId().equals(ingredient.getobjectId())) {
+                            ingredientExists = true;
+                        }
                     }
+                    if(ingredientExists)
+                    {
+                        Toast.makeText(getActivity(),"this ingredient is already added to the chosen ingredients",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        chosenIngredients.add(clickedIngredient);
+                    }
+                    args.putSerializable("ingredientlist",chosenIngredients);
+                    MainSearch.setArguments(args);
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.replace(R.id.pager, MainSearch);
+                    ft.show(MainSearch);
+                    ft.commit();
                 }
-                if(ingredientExists)
-                {
-                    Toast.makeText(getActivity(),"this ingredient is already added to the chosen ingredients",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    chosenIngredients.add(clickedIngredient);
-                }
-                args.putSerializable("ingredientlist",chosenIngredients);
-                MainSearch.setArguments(args);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.pager, MainSearch);
-                ft.show(MainSearch);
-                ft.commit();
-            }
-        });
-        return rootView;
-    }
-
-        private void getData()
+            });
+        }
+    private void getData()
     {
         data = getArguments();
     }
