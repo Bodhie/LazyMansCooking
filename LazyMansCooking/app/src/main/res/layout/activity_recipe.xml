@@ -54,6 +54,8 @@
             android:id="@+id/ratingBar"
             android:layout_below="@+id/listViewIngredients"
             android:numStars="5"
+            android:scaleX="0.5"
+            android:scaleY="0.5"
             android:stepSize="1.0" />
 
         <Button
