@@ -46,7 +46,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:layout_height="wrap_content"
-            android:text="Ingredients"
+            android:text="Ingredients:"
             android:textSize="20dp"
             android:layout_below="@+id/tvRecipeDescription"
 

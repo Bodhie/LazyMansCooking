@@ -117,7 +117,7 @@ public class RecipeFragment extends Fragment {
                 if (e == null) {
                     for (ParseObject ingredient : objects) {
                         Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
-                        if (builder.length() != 14) {
+                        if (builder.length() != 0) {
                             builder.append(", ");
                         }
                         builder.append(addIngredient);
