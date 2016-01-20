@@ -113,7 +113,7 @@ public class RecipeFragment extends Fragment {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 StringBuilder builder = new StringBuilder();
-                builder.append("Ingredients : ");
+
                 if (e == null) {
                     for (ParseObject ingredient : objects) {
                         Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
