@@ -13,16 +13,19 @@
             <EditText
                 android:id="@+id/txtTitle"
                 android:hint="@string/insert_recipe_name"
-                android:inputType="textPersonName"
                 android:layout_width="match_parent"
-                android:layout_weight="1"/>
+                android:inputType="textPersonName"
+                android:layout_weight="1"
+                android:layout_span="4" />
         </TableRow>
         <TableRow>
             <EditText
                 android:id="@+id/txtDescription"
                 android:hint="@string/insert_description"
+                android:layout_width="match_parent"
                 android:lines="3"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_span="4" />
         </TableRow>
         <TableRow>
             <ImageView
@@ -32,8 +35,9 @@
                 android:layout_gravity="center_horizontal"
                 android:maxHeight="100dp"
                 android:src="@mipmap/ic_launcher"
-                android:layout_weight="0.6"
-                android:adjustViewBounds="true"/>
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:layout_span="2"/>
 
             <Button
                 android:id="@+id/btn_pick"
@@ -42,34 +46,35 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:text="@string/recipe_image"
-                android:layout_weight="0.4"/>
+                android:layout_weight="0.5"
+                android:layout_span="2"/>
         </TableRow>
         <TableRow
             android:layout_height="0dp"
             android:layout_weight="1">
-                <TextView
-                    android:id="@+id/search_empty"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/search_empty"
-                    android:textColor="#000000"
-                    android:visibility="gone"
-                    android:layout_weight="0.5"/>
-                <ListView
-                    android:id="@+id/listViewChosenIngredients"
-                    android:layout_weight="0.5"
-                    android:layout_marginRight="10dp"/>
-                <TextView
-                    android:id="@+id/search_emptyOptions"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/search_emptyOptions"
-                    android:textColor="#000000"
-                    android:visibility="gone"
-                    android:layout_weight="0.5" />
-                <ListView
-                    android:id="@+id/listViewDisplayOptions"
-                    android:layout_weight="0.5"/>
+            <TextView
+                android:id="@+id/search_empty"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/search_empty"
+                android:textColor="#000000"
+                android:visibility="gone"
+                android:layout_weight="0.7"/>
+            <ListView
+                android:id="@+id/listViewChosenIngredients"
+                android:layout_weight="0.5"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:id="@+id/search_emptyOptions"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/search_emptyOptions"
+                android:textColor="#000000"
+                android:visibility="gone"
+                android:layout_weight="0.7" />
+            <ListView
+                android:id="@+id/listViewDisplayOptions"
+                android:layout_weight="0.5"/>
         </TableRow>
         <TableRow>
             <Button

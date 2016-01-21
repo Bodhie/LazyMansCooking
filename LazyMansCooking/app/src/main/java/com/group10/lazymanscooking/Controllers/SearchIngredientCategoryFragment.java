@@ -68,7 +68,6 @@ public class SearchIngredientCategoryFragment extends Fragment
         }
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
-        Toast.makeText(getActivity(),"array size is : " + chosenIngredients.size(),Toast.LENGTH_LONG).show();
         if(chosenIngredients.size() == 0)
         {
             TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
