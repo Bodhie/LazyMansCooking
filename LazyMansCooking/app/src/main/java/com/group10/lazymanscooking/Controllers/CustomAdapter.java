@@ -48,7 +48,7 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 					query.whereDoesNotMatchKeyInQuery("objectId", "recipeId", notIngredientRecipe);
 				} else if(clause.equals("myRecipe")){
 					query = ParseQuery.getQuery("Recipe");
-					//query.whereEqualTo("creatorId", value);
+					query.whereEqualTo("creatorId", value);
 					if(Local){
 						query.fromLocalDatastore();
 					}
