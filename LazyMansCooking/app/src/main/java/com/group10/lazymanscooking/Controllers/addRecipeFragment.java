@@ -47,8 +47,8 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
     ListView listViewChosenIngredients;
     ListView listViewOptions;
     TextView tvEmpty;
-    String currentLongitude;
-    String currentLatitude;
+    String currentLongitude = "0";
+    String currentLatitude = "0";
     private static final int SELECT_PHOTO = 1;
 
     @Override
