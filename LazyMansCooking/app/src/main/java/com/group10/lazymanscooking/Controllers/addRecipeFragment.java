@@ -200,11 +200,16 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
         {
             Toast.makeText(getActivity(),"the description is empty",Toast.LENGTH_LONG).show();
         }
+        else if (chosenIngredients.size() == 0)
+        {
+            Toast.makeText(getActivity(),"you haven't selected any ingredients",Toast.LENGTH_LONG).show();
+        }
         else
         {
             Bitmap bitmap = ((BitmapDrawable) viewImage.getDrawable()).getBitmap();
+            Bitmap resizedbitmap = bitmap.createScaledBitmap(bitmap, 854, 480, false);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            resizedbitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             getCurrentLocation();
             byte[] image = stream.toByteArray();
             ParseFile file = new ParseFile("image.png", image);
@@ -239,7 +244,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                 }
             });
 
-            //Change fragment
             //Change fragment
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
