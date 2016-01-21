@@ -50,7 +50,6 @@ public class CustomAdapter extends ParseQueryAdapter<ParseObject> {
 					query = ParseQuery.getQuery("Recipe");
 					//query.whereEqualTo("creatorId", value);
 					if(Local){
-						System.out.println("LOCAL!");
 						query.fromLocalDatastore();
 					}
 				} else if(clause.equals("SearchTitle")){

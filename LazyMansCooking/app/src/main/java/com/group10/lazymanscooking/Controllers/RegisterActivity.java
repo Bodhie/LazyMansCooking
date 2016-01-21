@@ -23,6 +23,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void addUser(View v){
+        // Retrieve data from edit text boxes
         EditText viewUsername = (EditText) findViewById(R.id.txtUsername);
         String username = viewUsername.getText().toString();
         EditText viewPassword = (EditText) findViewById(R.id.txtPassword);
@@ -35,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
         user.setPassword(password);
         user.setEmail(email);
 
+        // Insert your email, username and password
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {

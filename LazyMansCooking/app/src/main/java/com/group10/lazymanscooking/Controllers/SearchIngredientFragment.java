@@ -40,74 +40,76 @@ public class SearchIngredientFragment extends Fragment {
         rootView = inflater.inflate(R.layout.activity_searchingredients, container, false);
         listView = (ListView) rootView.findViewById(R.id.lvIngredients);
         ingredients = new ArrayList<>();
+        // Check if params are given through
         getData();
         if(data != null) {
             initIngredients();
         }
-        else
-        {
+        else {
             Toast.makeText(getActivity(),"This category has no ingredients",Toast.LENGTH_LONG).show();
         }
         return rootView;
     }
-        private void initIngredients()
-        {
-            category = (IngredientCategory) data.getSerializable("category");
-            chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
-            final ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
-            ParseQuery<ParseObject> query = new ParseQuery<>("Ingredient");
-            query.addAscendingOrder("name");
-            query.whereEqualTo("IngredientCategory_id", category.getobjectId());
-            query.findInBackground(new FindCallback<ParseObject>() {
-
-                @Override
-                public void done(List<ParseObject> objects, ParseException e) {
-                    if (e == null) {
-                        for (ParseObject ingredient : objects) {
-                            Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
-                            ingredients.add(addIngredient);
-                        }
-                        listView.setAdapter(arrayAdapter);
-                        if(ingredients.size() == 0)
-                        {
-                            TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
-                            tvEmpty.setText("The ingredients based on the chosen category will be here.");
-                            listView.setEmptyView(tvEmpty);
-                        }
-                    }
-                }
-            });
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Ingredient clickedIngredient = (Ingredient)parent.getItemAtPosition(position);
-                    SearchIngredientCategoryFragment MainSearch = new SearchIngredientCategoryFragment();
-                    Bundle args = new Bundle();
-                    boolean ingredientExists = false;
-                    for(Ingredient ingredient : chosenIngredients)
-                    {
-                        if(clickedIngredient.getobjectId().equals(ingredient.getobjectId())) {
-                            ingredientExists = true;
-                        }
-                    }
-                    if(ingredientExists)
-                    {
-                        Toast.makeText(getActivity(),"this ingredient is already added to the chosen ingredients",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        chosenIngredients.add(clickedIngredient);
-                    }
-                    args.putSerializable("ingredientlist",chosenIngredients);
-                    MainSearch.setArguments(args);
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.pager, MainSearch);
-                    ft.show(MainSearch);
-                    ft.commit();
-                }
-            });
-        }
-    private void getData()
+    private void initIngredients()
     {
+        // fill the listview with ingredients
+        category = (IngredientCategory) data.getSerializable("category");
+        chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
+        final ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, ingredients);
+        ParseQuery<ParseObject> query = new ParseQuery<>("Ingredient");
+        query.addAscendingOrder("name");
+        query.whereEqualTo("IngredientCategory_id", category.getobjectId());
+        query.findInBackground(new FindCallback<ParseObject>() {
+
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (ParseObject ingredient : objects) {
+                        Ingredient addIngredient = new Ingredient(ingredient.getObjectId(), ingredient.getString("name"));
+                        ingredients.add(addIngredient);
+                    }
+                    listView.setAdapter(arrayAdapter);
+                    if(ingredients.size() == 0)
+                    {
+                        TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
+                        tvEmpty.setText("The ingredients based on the chosen category will be here.");
+                        listView.setEmptyView(tvEmpty);
+                    }
+                }
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Handle the onclick by setting the selected ingredient in de selected listview.
+                Ingredient clickedIngredient = (Ingredient)parent.getItemAtPosition(position);
+                SearchIngredientCategoryFragment MainSearch = new SearchIngredientCategoryFragment();
+                Bundle args = new Bundle();
+                boolean ingredientExists = false;
+                for(Ingredient ingredient : chosenIngredients)
+                {
+                    if(clickedIngredient.getobjectId().equals(ingredient.getobjectId())) {
+                        ingredientExists = true;
+                    }
+                }
+                if(ingredientExists)
+                {
+                    Toast.makeText(getActivity(),"this ingredient is already added to the chosen ingredients",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    chosenIngredients.add(clickedIngredient);
+                }
+                args.putSerializable("ingredientlist",chosenIngredients);
+                MainSearch.setArguments(args);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.pager, MainSearch);
+                ft.show(MainSearch);
+                ft.commit();
+            }
+        });
+    }
+
+    private void getData() {
         data = getArguments();
     }
 }

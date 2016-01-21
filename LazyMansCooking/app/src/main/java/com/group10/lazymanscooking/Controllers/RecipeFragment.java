@@ -159,8 +159,7 @@ public class RecipeFragment extends Fragment {
                             }
                         });
                     } else {
-                        //unknown error, debug
-                        Toast.makeText(getActivity(), "Errore", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Something went wrong while getting your favorite recipes.", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -176,21 +175,17 @@ public class RecipeFragment extends Fragment {
         queryRating.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(final ParseObject object, final ParseException e) {
                 if (object != null) {
-                    System.out.println("Set rating");
                     String yourCurrentRating = String.valueOf(object.getInt("rating"));
                     ratingBar.setRating(Float.parseFloat(yourCurrentRating));
                 }
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                         int ratings = Integer.valueOf((int) rating);
-                        System.out.println(ratings);
                         if (e == null) {
-                            System.out.println("Update");
                             ParseObject currentRating = object;
                             currentRating.put("rating", ratings);
                             currentRating.saveInBackground();
                         } else {
-                            System.out.println("Create");
                             ParseObject insertRating = new ParseObject("RecipeRating");
                             insertRating.put("userId", currentUser.getObjectId());
                             insertRating.put("recipeId", recipe.getObjectId());
@@ -208,6 +203,7 @@ public class RecipeFragment extends Fragment {
 
 
     public void Location(){
+        // Set de location of the google maps intent
         showLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,6 +215,7 @@ public class RecipeFragment extends Fragment {
     }
 
     public void Facebookshare(){
+        // Intent for share your recipe
         shareFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

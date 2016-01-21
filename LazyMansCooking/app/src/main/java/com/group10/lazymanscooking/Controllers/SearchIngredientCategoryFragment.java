@@ -50,36 +50,30 @@ public class SearchIngredientCategoryFragment extends Fragment
         initIngredients();
         initCatories();
 
-
-
         return rootView;
     }
-    private void getDataFromFragment()
-    {
-            data = getArguments();
+
+    private void getDataFromFragment() {
+        data = getArguments();
     }
 
     private void initIngredients()
     {
-        //user came from the main activity and hasn't chosen any ingredients to search recipes with.
-        if(data != null)
-        {
+        // User came from the main activity and hasn't chosen any ingredients to search recipes with.
+        if(data != null) {
             chosenIngredients = (ArrayList)data.getSerializable("ingredientlist");
         }
         ArrayAdapter<Ingredient> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, chosenIngredients);
         ingredientslistView.setAdapter(arrayAdapter);
-        if(chosenIngredients.size() == 0)
-        {
+        if(chosenIngredients.size() == 0) {
             TextView tvEmpty = (TextView) rootView.findViewById(R.id.search_empty);
             ingredientslistView.setEmptyView(tvEmpty);
-
         }
-        else if (chosenIngredients.size() != 0)
-        {
+        else if (chosenIngredients.size() != 0) {
             btnSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //open recipesfragment
+                    // Open recipesfragment
                     RecipesFragment recipesfragment = new RecipesFragment();
                     Bundle args = new Bundle();
                     args.putSerializable("ingredientlist", chosenIngredients);
@@ -93,8 +87,9 @@ public class SearchIngredientCategoryFragment extends Fragment
         }
     }
 
-        private void initCatories()
+    private void initCatories()
     {
+        // Fill ingredients catogories in listview
         final ArrayAdapter<IngredientCategory> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, categories);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("IngredientCategory");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -110,6 +105,7 @@ public class SearchIngredientCategoryFragment extends Fragment
                 }
             }
         });
+        // Onclick ingredients categorie fill listview with ingriedients
         categorieslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 IngredientCategory clickedCategory = (IngredientCategory) parent.getItemAtPosition(position);

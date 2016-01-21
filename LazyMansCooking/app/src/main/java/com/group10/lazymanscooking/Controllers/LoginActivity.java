@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
         if(prefs.getBoolean("autoLogin", false)){
             currentUser = ParseUser.getCurrentUser();
             if (currentUser != null) {
-                System.out.println("CurrentUser");
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         } else {

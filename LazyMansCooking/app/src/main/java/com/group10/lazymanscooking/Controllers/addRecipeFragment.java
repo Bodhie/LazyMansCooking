@@ -132,7 +132,6 @@ public class addRecipeFragment extends Fragment implements View.OnClickListener 
                     for (ParseObject output : objects) {
                         if(chosenCategory != null)
                         {
-                            System.out.println(chosenCategory.getTitle());
                             Ingredient ingredient = new Ingredient(output.getObjectId(),output.getString("name"));
                             availableIngredients.add(ingredient);
                         }

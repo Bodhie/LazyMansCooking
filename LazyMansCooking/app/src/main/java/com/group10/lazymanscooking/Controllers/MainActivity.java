@@ -152,13 +152,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.action_search) {
             TextView search = (TextView) findViewById(R.id.txtSearch);
             String ssearch = search.getText().toString();
-            System.out.println(ssearch);
             RecipesFragment f = new RecipesFragment();
             Bundle args = new Bundle();
             args.putString("search", ssearch);
             f.setArguments(args);
             newFragment = f;
-            System.out.println("search");
         }
         else if(id == R.id.action_advancedSearch)
         {
@@ -183,7 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Bundle args = new Bundle();
         args.putString("search", ssearch);
         f.setArguments(args);
-        System.out.println("search");
 
         // Create new transaction
         FragmentTransaction transaction = getFragmentManager().beginTransaction();

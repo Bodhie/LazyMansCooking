@@ -40,7 +40,7 @@ public class RecipesFragment extends Fragment {
             listView.setAdapter(adapter);
         }
         else if (args.getSerializable("ingredientlist") != null) {
-            //search recipes by chosen ingredients
+            // Search recipes by chosen ingredients
             chosenIngredients = (ArrayList)args.getSerializable("ingredientlist");
             ArrayList<String> ingredientsId = new ArrayList<>();
             for(Ingredient ingredient : chosenIngredients){
@@ -51,6 +51,7 @@ public class RecipesFragment extends Fragment {
         }
         else
         {
+            // Create the adapter for the recipes listview
             String search = args.getString("search", "");
             Boolean favorite = args.getBoolean("favorite", false);
             Boolean myRecipe = args.getBoolean("myRecipe", false);
@@ -78,6 +79,7 @@ public class RecipesFragment extends Fragment {
 
     public void setClickListener()
     {
+        // Handle the onclick in the lisview and open de recipe detail screen
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ParseObject item = (ParseObject) parent.getItemAtPosition(position);
